@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="N150" targetNamespace="http://tempuri.org/N150.xsd" xmlns:mstns="http://tempuri.org/N150.xsd" xmlns="http://tempuri.org/N150.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="在庫推移TableAdapter" GeneratorFunctionsComponentClassName="在庫推移TableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" UserFunctionsComponentName="在庫推移TableAdapter" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="tnbConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="tnbConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.N150.My.MySettings.GlobalReference.Default.tnbConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertZaikoSuii" MethodsParameterType="CLR" Modifier="Public" Name="InsertZaikoSuii" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="InsertZaikoSuii">
+            <InsertCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>INSERT INTO T_在庫推移
+([商品管理番号],[在庫年月日],[仕入数量],[品番変更数量],
+ [返品数量],[廃棄数量],[売上数量],[在庫数量],
+ [登録者番号],[登録日])
+
+SELECT DISTINCT TARGET.[商品管理番号]
+       ,@対象年月日 AS [在庫年月日]
+	   ,ISNULL(SHIIRE.[仕入数量], 0) AS [仕入数量]
+	   ,ISNULL(HINBAN.[品番変更数量], 0) AS [品番変更数量]
+	   ,ISNULL(HENPIN.[返品数量], 0) AS [返品数量]
+	   ,ISNULL(HAIKI.[廃棄数量], 0) AS [廃棄数量]
+	   ,ISNULL(URIAGE.[売上数量], 0) AS [売上数量]
+	   ,ISNULL(ZAIKO.[在庫数量], 0) AS [在庫数量]
+	   ,'BAT' AS [登録者番号]
+	   ,GETDATE() AS [登録日]
+	   
+FROM (
+	SELECT ISNULL(SHIIRE.商品管理番号,ISNULL(
+		ZAIKO.商品管理番号, URIAGE.商品管理番号)) AS 商品管理番号
+		
+	FROM (
+		SELECT  DISTINCT T_仕入明細.[商品管理番号]
+		FROM [T_仕入明細]
+		INNER JOIN [T_仕入]
+		ON T_仕入明細.仕入伝票番号 = T_仕入.仕入伝票番号
+		AND T_仕入.赤黒枝番 = T_仕入明細.赤黒枝番
+		WHERE (T_仕入.仕入区分 = '1' 
+		or T_仕入.仕入区分 = '8' 
+		or T_仕入.仕入区分 = '6' 
+		or T_仕入.仕入区分 = '9')
+		AND (T_仕入.仕入入力日 = @対象年月日)) SHIIRE
+	FULL OUTER JOIN (
+		SELECT DISTINCT T_在庫.商品管理番号
+		FROM T_在庫) ZAIKO
+	ON SHIIRE.商品管理番号 = ZAIKO.商品管理番号
+	FULL OUTER JOIN (
+		SELECT DISTINCT T_売上.商品管理番号
+		FROM T_売上
+		WHERE T_売上.売上年月日 = @対象年月日) URIAGE
+	ON SHIIRE.商品管理番号 = URIAGE.商品管理番号 OR  URIAGE.商品管理番号 = ZAIKO.商品管理番号
+) TARGET
+
+LEFT OUTER JOIN (
+		SELECT T_仕入明細.[商品管理番号] ,SUM(T_仕入明細.[数量]) AS [仕入数量]
+		FROM [T_仕入明細]INNER JOIN [T_仕入]
+		ON T_仕入明細.仕入伝票番号 = T_仕入.仕入伝票番号
+			AND T_仕入明細.赤黒枝番 = T_仕入.赤黒枝番
+		WHERE T_仕入.赤黒枝番 = (SELECT MAX(A.赤黒枝番)FROM T_仕入 A
+									WHERE T_仕入.仕入伝票番号 = A.仕入伝票番号
+									GROUP BY A.仕入伝票番号)
+								AND (T_仕入.仕入区分 = '1')
+								AND (T_仕入.仕入入力日 = @対象年月日)
+		GROUP BY T_仕入明細.商品管理番号) SHIIRE
+ON TARGET.[商品管理番号] = SHIIRE.[商品管理番号]
+
+LEFT OUTER JOIN (
+		SELECT T_仕入明細.[商品管理番号]
+			   ,SUM(T_仕入明細.[数量]) AS [返品数量]
+		FROM [T_仕入明細]
+		INNER JOIN [T_仕入]
+		ON T_仕入明細.仕入伝票番号 = T_仕入.仕入伝票番号
+			AND T_仕入明細.赤黒枝番 = T_仕入.赤黒枝番
+		WHERE T_仕入.赤黒枝番 = (SELECT MAX(A.赤黒枝番)FROM T_仕入 A
+									WHERE T_仕入.仕入伝票番号 = A.仕入伝票番号
+									GROUP BY A.仕入伝票番号)
+								AND (T_仕入.仕入区分 = '8')
+								AND (T_仕入.仕入入力日 = @対象年月日)
+		GROUP BY T_仕入明細.商品管理番号) HENPIN
+ON TARGET.[商品管理番号] = HENPIN.[商品管理番号]
+
+LEFT OUTER JOIN (
+		SELECT T_仕入明細.[商品管理番号]
+		,SUM(T_仕入明細.[数量]) AS [品番変更数量]
+		FROM [T_仕入明細]
+		INNER JOIN [T_仕入]
+		ON T_仕入明細.仕入伝票番号 = T_仕入.仕入伝票番号
+			AND T_仕入明細.赤黒枝番 = T_仕入.赤黒枝番
+		WHERE T_仕入.赤黒枝番 = (SELECT MAX(A.赤黒枝番) FROM [T_仕入] A
+									WHERE T_仕入.仕入伝票番号 = A.仕入伝票番号
+									GROUP BY A.仕入伝票番号)
+								AND (T_仕入.仕入区分 = '6')
+								AND (T_仕入.仕入入力日 = @対象年月日)
+		GROUP BY T_仕入明細.商品管理番号) HINBAN
+ON TARGET.[商品管理番号] = HINBAN.[商品管理番号]
+
+LEFT OUTER JOIN (
+		SELECT T_仕入明細.[商品管理番号]
+		,SUM(T_仕入明細.[数量]) AS [廃棄数量]
+		FROM [T_仕入明細]
+		INNER JOIN [T_仕入]
+		ON T_仕入明細.仕入伝票番号 = T_仕入.仕入伝票番号
+			AND T_仕入明細.赤黒枝番 = T_仕入.赤黒枝番
+		WHERE T_仕入.赤黒枝番 = (SELECT MAX(A.赤黒枝番) FROM [T_仕入] A
+									WHERE T_仕入.仕入伝票番号 = A.仕入伝票番号
+									GROUP BY A.仕入伝票番号)
+								AND (T_仕入.仕入区分 = '9')
+								AND (T_仕入.仕入入力日 = @対象年月日)
+		GROUP BY T_仕入明細.商品管理番号) HAIKI
+ON TARGET.[商品管理番号] = HAIKI.[商品管理番号]
+
+LEFT OUTER JOIN (
+		SELECT T_売上.[商品管理番号]
+			,SUM(T_売上.[数量]) AS [売上数量]
+		FROM [T_売上]
+		WHERE T_売上.[売上年月日] = @対象年月日
+		GROUP BY T_売上.[商品管理番号]) URIAGE
+ON TARGET.商品管理番号 = URIAGE.商品管理番号
+						
+LEFT OUTER JOIN (
+		SELECT T_在庫.[商品管理番号]
+			,SUM(T_在庫.数量) AS [在庫数量]
+		FROM [T_在庫]
+		GROUP BY T_在庫.商品管理番号) ZAIKO
+ON TARGET.商品管理番号 = ZAIKO.商品管理番号</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="false" AutogeneratedName="対象年月日" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="AnsiString" Direction="Input" ParameterName="@対象年月日" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                </Parameters>
+              </DbCommand>
+            </InsertCommand>
+          </DbSource>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="N150" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="N150" msprop:Generator_DataSetName="N150">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

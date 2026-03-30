@@ -1,0 +1,541 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+common_bat
+</name>
+</assembly>
+<members>
+<member name="T:common_bat.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:common_bat.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:common_bat.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:common_bat.Module1.ZaikoKubun">
+ <summary>
+ 在庫区分
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.ZaikoKubun.Honsha">
+ <summary>
+ 本社在庫
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.ZaikoKubun.Hamacho">
+ <summary>
+ 浜町在庫
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.ZaikoKubun.ShagaiSoko">
+ <summary>
+ 社外倉庫
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:common_bat.Module1.AccessKubun">
+ <summary>
+ アクセス区分
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.AccessKubun.Hacchu">
+ <summary>
+ 発注
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.AccessKubun.Shiire">
+ <summary>
+ 仕入
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.AccessKubun.Uriage">
+ <summary>
+ 売上
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.AccessKubun.Henpin">
+ <summary>
+ 返品
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.AccessKubun.Haiki">
+ <summary>
+ 廃棄
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.AccessKubun.HinbanHenko">
+ <summary>
+ 廃棄
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.Constant.ZAIKO_SHIIRE_DENPYONO_ALL_ZERO">
+ <summary>
+ マイナス在庫時に使用する伝票番号
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.Module1.DBConnectionString">
+ <summary>
+ 接続文字列を取得する
+ </summary>
+ <value></value>
+ <returns>バッチ実行日</returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.Module1.BatDate">
+ <summary>
+ M_コードからバッチ実行日を取得する
+ </summary>
+ <value></value>
+ <returns>バッチ実行日</returns>
+ <remarks></remarks>
+</member>
+<member name="M:common_bat.Module1.ValueToDateFormat(System.String)">
+ <summary>
+ 日付変換を行う(yyyyMMdd→yyyy/MM/dd)
+ </summary>
+ <param name="baseDate">"baseDate">変換する日付(YYYYMMDD)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:common_bat.Module1.ValueToDate(System.String)">
+ <summary>
+ 日付変換を行う(文字列：yyyyMMdd→Date型)
+ </summary>
+ <param name="baseDate">"baseDate">変換する日付(YYYYMMDD)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="F:common_bat.Module1.COMMAND_TIME_OUT">
+ <summary>
+ コマンドタイムアウト
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:common_bat.ZaikoHosei.ExecuteZaikoKeijoShiire(System.String,System.String,System.String,System.Int32,System.String,System.String)">
+ <summary>
+ 仕入の在庫計上を実行する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:common_bat.ZaikoHosei.ExecuteZaikoTanaoroshi(common_bat.ZaikoValueObject)">
+ <summary>
+ 棚卸の時の在庫引当を実行する
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:common_bat.ZaikoHosei.hikiateShohin2(common_bat.CommonTableAdapters.T_在庫TableAdapter@,System.String,common_bat.ZaikoValueObject)">
+ <summary>
+ 通常の商品の在庫引き当て処理を行う
+ </summary>
+ <param name="zaikoAdapter">T_在庫TableAdapter</param>
+ <param name="updateUser">更新者</param>
+ <param name="zaiko">在庫ValueObject</param>
+ <remarks></remarks>
+</member>
+<member name="M:common_bat.ZaikoHosei.getSetShohinList(common_bat.ZaikoValueObject)">
+ <summary>
+ セット商品を一元化する
+ ※上代・下代・販売金額は子商品の比率で算出する
+ </summary>
+ <param name="parent">セット商品のValueObject</param>
+ <remarks></remarks>
+ <returns>セット商品（子商品）</returns>
+</member>
+<member name="P:common_bat.ZaikoValueObject.ShohinKanriNo">
+ <summary>
+ 商品管理番号を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.ZaikoKubun">
+ <summary>
+ 在庫区分を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.IsSetShohin">
+ <summary>
+ セット商品フラグを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.IsShokaNohin">
+ <summary>
+ 消化納品フラグを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.isOutOfZaiko">
+ <summary>
+ 在庫対象外フラグを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.ShohinName">
+ <summary>
+ 商品名を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.ShohinCode">
+ <summary>
+ 商品コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.BarCode">
+ <summary>
+ バーコードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.KakerituCode">
+ <summary>
+ 掛率コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.FloorCode">
+ <summary>
+ フロアコードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.ShohinGroupCode">
+ <summary>
+ 商品グループコードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.ShiireCode">
+ <summary>
+ 仕入先コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.ShiireRirekiNo">
+ <summary>
+ 仕入先履歴番号を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.KokyakuKanriNo">
+ <summary>
+ 顧客管理番号を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.KokyakuName">
+ <summary>
+ 顧客名を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.KokyakuCode">
+ <summary>
+ 顧客コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.DaihyoKokyakuCode">
+ <summary>
+ 代表顧客コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.JodaiTanka">
+ <summary>
+ 上代単価を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.GedaiTanka">
+ <summary>
+ 下代単価を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.Suryo">
+ <summary>
+ 数量を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.HanbaiKingaku">
+ <summary>
+ 販売金額を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.TantoShainCode">
+ <summary>
+ 売上担当者番号を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:common_bat.ZaikoValueObject.TantoShainName">
+ <summary>
+ 売上担当者名を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:common_bat.Common">
+<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+<member name="T:common_bat.Common.バッチ実行日DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:common_bat.Common.T_売上DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:common_bat.Common.T_商品アクセスDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:common_bat.Common.M_商品DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:common_bat.Common.M_セット商品DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:common_bat.Common.T_在庫DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:common_bat.Common.T_在庫WORKDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:common_bat.Common.バッチ実行日Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:common_bat.Common.T_売上Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:common_bat.Common.T_商品アクセスRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:common_bat.Common.M_商品Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:common_bat.Common.M_セット商品Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:common_bat.Common.T_在庫Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:common_bat.Common.T_在庫WORKRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:common_bat.Common.バッチ実行日RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:common_bat.Common.T_売上RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:common_bat.Common.T_商品アクセスRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:common_bat.Common.M_商品RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:common_bat.Common.M_セット商品RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:common_bat.Common.T_在庫RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:common_bat.Common.T_在庫WORKRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.バッチ実行日TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.T_売上TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.T_商品アクセスTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.M_商品TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.M_セット商品TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.T_在庫TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.T_在庫WORKTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.バッチログTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.TableAdapterManager">
+<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+<member name="M:common_bat.CommonTableAdapters.TableAdapterManager.UpdateUpdatedRows(common_bat.Common,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Update rows in top-down order.
+</summary>
+</member>
+<member name="M:common_bat.CommonTableAdapters.TableAdapterManager.UpdateInsertedRows(common_bat.Common,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Insert rows in top-down order.
+</summary>
+</member>
+<member name="M:common_bat.CommonTableAdapters.TableAdapterManager.UpdateDeletedRows(common_bat.Common,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Delete rows in bottom-up order.
+</summary>
+</member>
+<member name="M:common_bat.CommonTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member>
+<member name="M:common_bat.CommonTableAdapters.TableAdapterManager.UpdateAll(common_bat.Common)">
+<summary>
+Update all changes to the dataset.
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.TableAdapterManager.UpdateOrderOption">
+<summary>
+Update Order Option
+</summary>
+</member>
+<member name="T:common_bat.CommonTableAdapters.TableAdapterManager.SelfReferenceComparer">
+<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member>
+</members>
+</doc>

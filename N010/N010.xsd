@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="N010" targetNamespace="http://tempuri.org/N010.xsd" xmlns:mstns="http://tempuri.org/N010.xsd" xmlns="http://tempuri.org/N010.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" GeneratorFunctionsComponentClassName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" UserFunctionsComponentName="QueriesTableAdapter" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="tnbConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="tnbConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.N010.My.MySettings.GlobalReference.Default.tnbConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="来店ポイントTableAdapter" GeneratorDataComponentClassName="来店ポイントTableAdapter" Name="来店ポイント" UserDataComponentName="来店ポイントTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="tnb.dbo.T_来店" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="SelectRaitenPoint" GetMethodModifier="Public" GetMethodName="SelectRaitenPoint" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="SelectRaitenPoint" UserSourceName="SelectRaitenPoint">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT	 TR.顧客管理番号
+		,来店年月日 年月日
+		,0 合計金額
+		,MAX(CASE WHEN SUBSTRING(MK.顧客コード,1,1) IN ( 'I','O' ) THEN 5 
+		          WHEN SUBSTRING(MK.顧客コード,1,1) IN ( 'ﾜ' )     THEN 20
+																   ELSE MRP.加算ポイント 
+		 END) 加算ポイント
+		,MAX(ISNULL(REG.使用ポイント数,0)) 使用ポイント数
+		,MAX(ISNULL(REG.付与ポイント,0)) 付与ポイント
+		,MAX(CASE WHEN SUBSTRING(TR.来店時分秒,1,4) BETWEEN ME.開始時分 AND ME.終了時分 
+			THEN ME.ポイント掛率
+			ELSE 1
+		 END) ポイント掛率
+FROM	 T_来店 TR
+INNER JOIN M_顧客 MK ON TR.顧客管理番号 = MK.顧客管理番号
+LEFT JOIN M_来店ポイント MRP ON MK.都道府県コード = MRP.都道府県コード
+LEFT JOIN (SELECT	 TR.顧客管理番号
+					,TR.伝票年月日
+					,SUM(TR.合計金額) 合計金額
+					,CAST((SUM(ISNULL(TRN.[明細合計金額],0)) / 20000) AS INT) * 20 付与ポイント
+					,SUM(TR.使用ポイント数) 使用ポイント数
+					,1 ポイント掛率
+			FROM	 T_レジ伝票 TR
+			LEFT JOIN (SELECT	 T_レジ伝票明細.[伝票年月日]
+								,T_レジ伝票明細.[出力レジ番号]
+								,T_レジ伝票明細.[レジ伝票連番]
+								,T_レジ伝票.[顧客管理番号]
+								,SUM(T_レジ伝票明細.[金額]) AS [明細合計金額]
+					   FROM		 [T_レジ伝票明細]
+					   INNER JOIN [T_レジ伝票] ON  T_レジ伝票.[伝票年月日] = T_レジ伝票明細.[伝票年月日]
+											   AND T_レジ伝票.[出力レジ番号] = T_レジ伝票明細.[出力レジ番号]
+											   AND T_レジ伝票.[レジ伝票連番] = T_レジ伝票明細.[レジ伝票連番]
+					   WHERE	 T_レジ伝票明細.フロアコード NOT IN('T','+')
+					   AND		 T_レジ伝票明細.伝票年月日 = @対象年月日
+					   GROUP BY	 T_レジ伝票明細.[伝票年月日]
+								,T_レジ伝票明細.[出力レジ番号]
+								,T_レジ伝票明細.[レジ伝票連番]
+								,T_レジ伝票.[顧客管理番号]) TRN ON  TR.伝票年月日 = TRN.伝票年月日
+																AND TR.出力レジ番号 = TRN.出力レジ番号
+																AND TR.レジ伝票連番 = TRN.レジ伝票連番
+																AND TR.顧客管理番号 = TRN.顧客管理番号
+					
+			WHERE	 TR.伝票年月日 = @対象年月日
+			AND		 RTRIM(TR.顧客管理番号) &lt;&gt; ''
+			GROUP BY TR.顧客管理番号
+					,TR.伝票年月日) REG ON  TR.顧客管理番号 = REG.顧客管理番号
+																						AND TR.来店年月日 = REG.伝票年月日
+LEFT JOIN (SELECT	 ME.イベント年月日
+					,ME.開始時分
+					,ME.終了時分
+					,ME.ポイント掛率
+			  FROM	 M_イベント ME 
+			  WHERE	 ME.イベント区分 IN ( '003','004','005','006','007' )
+			  AND	 ME.イベント年月日 = @対象年月日) ME ON TR.来店年月日 = ME.イベント年月日
+WHERE	 TR.来店年月日 = @対象年月日
+AND		 ISNULL(MK.削除フラグ,0) = 0
+GROUP BY TR.顧客管理番号
+		,来店年月日
+UNION ALL
+SELECT	 REG.顧客管理番号
+		,@対象年月日 年月日
+		,0 合計金額
+		,0 加算ポイント
+		,MAX(ISNULL(REG.使用ポイント数,0)) 使用ポイント数
+		,MAX(ISNULL(REG.付与ポイント,0)) 付与ポイント
+		,MAX(CASE WHEN ME.開始時分 = '0000' AND ME.終了時分 = '2359'
+			THEN ME.ポイント掛率
+			ELSE 1
+		 END) ポイント掛率
+FROM	(SELECT	 TR.顧客管理番号
+				,TR.伝票年月日
+				,SUM(TR.合計金額) 合計金額
+				,CAST((SUM(ISNULL(TRN.[明細合計金額],0)) / 20000) AS INT) * 20 付与ポイント
+				,SUM(TR.使用ポイント数) 使用ポイント数
+				,1 ポイント掛率
+		FROM	 T_レジ伝票 TR
+		LEFT JOIN (SELECT	 T_レジ伝票明細.[伝票年月日]
+							,T_レジ伝票明細.[出力レジ番号]
+							,T_レジ伝票明細.[レジ伝票連番]
+							,T_レジ伝票.[顧客管理番号]
+							,SUM(T_レジ伝票明細.[金額]) AS [明細合計金額]
+				   FROM		 [T_レジ伝票明細]
+				   INNER JOIN [T_レジ伝票] ON  T_レジ伝票.[伝票年月日] = T_レジ伝票明細.[伝票年月日]
+										   AND T_レジ伝票.[出力レジ番号] = T_レジ伝票明細.[出力レジ番号]
+										   AND T_レジ伝票.[レジ伝票連番] = T_レジ伝票明細.[レジ伝票連番]
+				   WHERE	 T_レジ伝票明細.フロアコード NOT IN('T','+')
+				   AND		 T_レジ伝票明細.伝票年月日 = @対象年月日
+				   GROUP BY	 T_レジ伝票明細.[伝票年月日]
+							,T_レジ伝票明細.[出力レジ番号]
+							,T_レジ伝票明細.[レジ伝票連番]
+							,T_レジ伝票.[顧客管理番号]) TRN ON  TR.伝票年月日 = TRN.伝票年月日
+															AND TR.出力レジ番号 = TRN.出力レジ番号
+															AND TR.レジ伝票連番 = TRN.レジ伝票連番
+															AND TR.顧客管理番号 = TRN.顧客管理番号
+				
+		WHERE	 TR.伝票年月日 = @対象年月日
+		AND		 RTRIM(TR.顧客管理番号) &lt;&gt; ''
+		GROUP BY TR.顧客管理番号
+				,TR.伝票年月日) REG
+INNER JOIN M_顧客 MK ON REG.顧客管理番号 = MK.顧客管理番号
+LEFT JOIN M_来店ポイント MRP ON MK.都道府県コード = MRP.都道府県コード
+LEFT JOIN T_来店 TR ON  TR.顧客管理番号 = REG.顧客管理番号
+					AND TR.来店年月日 = REG.伝票年月日
+					AND TR.来店年月日 = @対象年月日
+LEFT JOIN (SELECT	 ME.イベント年月日
+					,ME.開始時分
+					,ME.終了時分
+					,ME.ポイント掛率
+			  FROM	 M_イベント ME 
+			  WHERE	 ME.イベント区分 IN ( '003','004','005','006','007' )
+			  AND	 ME.イベント年月日 = @対象年月日) ME ON REG.伝票年月日 = ME.イベント年月日
+WHERE	 ISNULL(MK.削除フラグ,0) = 0
+AND		 TR.顧客管理番号 IS NULL
+AND		(ISNULL(REG.付与ポイント,0) &lt;&gt; 0 OR
+         ISNULL(REG.使用ポイント数,0) &lt;&gt; 0)
+GROUP BY REG.顧客管理番号
+		,来店年月日
+</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="対象年月日" ColumnName="来店年月日" DataSourceName="tnb.dbo.T_来店" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@対象年月日" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="年月日" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="顧客管理番号" DataSetColumn="顧客管理番号" />
+              <Mapping SourceColumn="年月日" DataSetColumn="年月日" />
+              <Mapping SourceColumn="合計金額" DataSetColumn="合計金額" />
+              <Mapping SourceColumn="付与ポイント" DataSetColumn="付与ポイント" />
+              <Mapping SourceColumn="使用ポイント数" DataSetColumn="使用ポイント数" />
+              <Mapping SourceColumn="ポイント掛率" DataSetColumn="ポイント掛率" />
+              <Mapping SourceColumn="加算ポイント" DataSetColumn="加算ポイント" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="T_ポイントTableAdapter" GeneratorDataComponentClassName="T_ポイントTableAdapter" Name="T_ポイント" UserDataComponentName="T_ポイントTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="tnb.dbo.T_ポイント" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="SelectShikkouPoint" GetMethodModifier="Public" GetMethodName="SelectShikkouPoint" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="SelectShikkouPoint" UserSourceName="SelectShikkouPoint">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM [T_ポイント] WHERE (([顧客管理番号] = @Original_顧客管理番号) AND ((@IsNull_ポイント = 1 AND [ポイント] IS NULL) OR ([ポイント] = @Original_ポイント)) AND ((@IsNull_有効年月日 = 1 AND [有効年月日] IS NULL) OR ([有効年月日] = @Original_有効年月日)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@Original_顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_ポイント" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ポイント" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ポイント" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_有効年月日" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="有効年月日" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@Original_有効年月日" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="有効年月日" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO [T_ポイント] ([顧客管理番号], [ポイント], [有効年月日]) VALUES (@顧客管理番号, @ポイント, @有効年月日);
+SELECT 顧客管理番号, ポイント, 有効年月日 FROM T_ポイント WHERE (顧客管理番号 = @顧客管理番号)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ポイント" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@有効年月日" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="有効年月日" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT          顧客管理番号, ポイント, 有効年月日
+FROM            T_ポイント
+WHERE           (有効年月日 &lt;= @有効年月日)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="有効年月日" ColumnName="有効年月日" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@有効年月日" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="有効年月日" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [T_ポイント] SET [顧客管理番号] = @顧客管理番号, [ポイント] = @ポイント, [有効年月日] = @有効年月日 WHERE (([顧客管理番号] = @Original_顧客管理番号) AND ((@IsNull_ポイント = 1 AND [ポイント] IS NULL) OR ([ポイント] = @Original_ポイント)) AND ((@IsNull_有効年月日 = 1 AND [有効年月日] IS NULL) OR ([有効年月日] = @Original_有効年月日)));
+SELECT 顧客管理番号, ポイント, 有効年月日 FROM T_ポイント WHERE (顧客管理番号 = @顧客管理番号)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ポイント" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@有効年月日" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="有効年月日" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@Original_顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_ポイント" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ポイント" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ポイント" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_有効年月日" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="有効年月日" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@Original_有効年月日" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="有効年月日" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="顧客管理番号" DataSetColumn="顧客管理番号" />
+              <Mapping SourceColumn="ポイント" DataSetColumn="ポイント" />
+              <Mapping SourceColumn="有効年月日" DataSetColumn="有効年月日" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateRaitenPoint" MethodsParameterType="CLR" Modifier="Public" Name="UpdateRaitenPoint" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="UpdateRaitenPoint">
+            <UpdateCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>UPDATE         T_ポイント
+SET                ポイント = ポイント + @ポイント, 更新者番号 = @更新者番号, 
+                      更新日 = GETDATE()
+WHERE           (顧客管理番号 = @顧客管理番号)</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="true" AutogeneratedName="ポイント" ColumnName="ポイント" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ポイント" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="更新者番号" ColumnName="更新者番号" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="nvarchar(4)" DbType="String" Direction="Input" ParameterName="@更新者番号" Precision="0" ProviderType="NVarChar" Scale="0" Size="4" SourceColumn="更新者番号" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="false" AutogeneratedName="顧客管理番号" ColumnName="顧客管理番号" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Original" />
+                </Parameters>
+              </DbCommand>
+            </UpdateCommand>
+          </DbSource>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertRaitenPoint" MethodsParameterType="CLR" Modifier="Public" Name="InsertRaitenPoint" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="InsertRaitenPoint">
+            <InsertCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>INSERT INTO T_ポイント
+                      (顧客管理番号, ポイント, 有効年月日, 登録者番号, 登録日)
+VALUES         (@顧客管理番号,@ポイント,@有効年月日,@登録者番号, GETDATE())</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="false" AutogeneratedName="顧客管理番号" ColumnName="顧客管理番号" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="ポイント" ColumnName="ポイント" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ポイント" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="有効年月日" ColumnName="有効年月日" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@有効年月日" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="有効年月日" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="登録者番号" ColumnName="登録者番号" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="nvarchar(4)" DbType="String" Direction="Input" ParameterName="@登録者番号" Precision="0" ProviderType="NVarChar" Scale="0" Size="4" SourceColumn="登録者番号" SourceColumnNullMapping="false" SourceVersion="Current" />
+                </Parameters>
+              </DbCommand>
+            </InsertCommand>
+          </DbSource>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="DeletePointData" MethodsParameterType="CLR" Modifier="Public" Name="DeletePointData" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="DeletePointData">
+            <DeleteCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>DELETE FROM T_ポイント
+WHERE           (顧客管理番号 = @顧客管理番号) AND (ポイント + @ポイント = 0)</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="false" AutogeneratedName="顧客管理番号" ColumnName="顧客管理番号" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Original" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="ポイント" ColumnName="ポイント" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ポイント" Precision="0" ProviderType="Int" Scale="0" Size="9" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Original" />
+                </Parameters>
+              </DbCommand>
+            </DeleteCommand>
+          </DbSource>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdatePointHistory" MethodsParameterType="CLR" Modifier="Public" Name="UpdatePointHistory" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy3" UserSourceName="UpdatePointHistory">
+            <UpdateCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>UPDATE         T_ポイント履歴
+SET                ポイント = @ポイント, 更新者番号 = N'BAT', 更新日 = GETDATE()
+WHERE           (顧客管理番号 = @顧客管理番号) AND (ポイント日付 = @ポイント日付) AND
+                       (ポイント区分 = @ポイント区分)</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="true" AutogeneratedName="ポイント" ColumnName="ポイント" DataSourceName="tnb.dbo.T_ポイント履歴" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ポイント" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="false" AutogeneratedName="顧客管理番号" ColumnName="顧客管理番号" DataSourceName="tnb.dbo.T_ポイント履歴" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Original" />
+                  <Parameter AllowDbNull="false" AutogeneratedName="ポイント日付" ColumnName="ポイント日付" DataSourceName="tnb.dbo.T_ポイント履歴" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@ポイント日付" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="ポイント日付" SourceColumnNullMapping="false" SourceVersion="Original" />
+                  <Parameter AllowDbNull="false" AutogeneratedName="ポイント区分" ColumnName="ポイント区分" DataSourceName="tnb.dbo.T_ポイント履歴" DataTypeServer="nchar(1)" DbType="String" Direction="Input" ParameterName="@ポイント区分" Precision="0" ProviderType="NChar" Scale="0" Size="1" SourceColumn="ポイント区分" SourceColumnNullMapping="false" SourceVersion="Original" />
+                </Parameters>
+              </DbCommand>
+            </UpdateCommand>
+          </DbSource>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertPointHistory" MethodsParameterType="CLR" Modifier="Public" Name="InsertPointHistory" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="InsertPointHistory">
+            <InsertCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>INSERT INTO T_ポイント履歴
+                      (顧客管理番号, ポイント日付, ポイント区分, ポイント, 登録者番号, 登録日)
+VALUES         (@顧客管理番号,@ポイント日付,@ポイント区分,@ポイント, N'BAT', 
+                      GETDATE())</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="false" AutogeneratedName="顧客管理番号" ColumnName="顧客管理番号" DataSourceName="tnb.dbo.T_ポイント履歴" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="false" AutogeneratedName="ポイント日付" ColumnName="ポイント日付" DataSourceName="tnb.dbo.T_ポイント履歴" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@ポイント日付" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="ポイント日付" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="false" AutogeneratedName="ポイント区分" ColumnName="ポイント区分" DataSourceName="tnb.dbo.T_ポイント履歴" DataTypeServer="nchar(1)" DbType="String" Direction="Input" ParameterName="@ポイント区分" Precision="0" ProviderType="NChar" Scale="0" Size="1" SourceColumn="ポイント区分" SourceColumnNullMapping="false" SourceVersion="Current" />
+                  <Parameter AllowDbNull="true" AutogeneratedName="ポイント" ColumnName="ポイント" DataSourceName="tnb.dbo.T_ポイント履歴" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ポイント" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ポイント" SourceColumnNullMapping="false" SourceVersion="Current" />
+                </Parameters>
+              </DbCommand>
+            </InsertCommand>
+          </DbSource>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="DeletePointShikkou" MethodsParameterType="CLR" Modifier="Public" Name="DeletePointShikkou" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="DeletePointShikkou">
+            <DeleteCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>DELETE T_ポイント WHERE 顧客管理番号 = @顧客管理番号</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="false" AutogeneratedName="顧客管理番号" ColumnName="顧客管理番号" DataSourceName="tnb.dbo.T_ポイント" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@顧客管理番号" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="顧客管理番号" SourceColumnNullMapping="false" SourceVersion="Original" />
+                </Parameters>
+              </DbCommand>
+            </DeleteCommand>
+          </DbSource>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="SelectPointJyogaiDate" MethodsParameterType="CLR" Modifier="Public" Name="SelectPointJyogaiDate" QueryType="Scalar" ScalarCallRetval="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy6" UserSourceName="SelectPointJyogaiDate">
+            <SelectCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>SELECT COUNT(*)
+FROM M_カレンダ
+WHERE 年月日 = @年月日 AND ISNULL(除外日フラグ,0) =1</CommandText>
+                <Parameters>
+                  <Parameter AllowDbNull="false" AutogeneratedName="年月日" ColumnName="年月日" DataSourceName="tnb.dbo.M_カレンダ" DataTypeServer="nchar(8)" DbType="String" Direction="Input" ParameterName="@年月日" Precision="0" ProviderType="NChar" Scale="0" Size="8" SourceColumn="年月日" SourceColumnNullMapping="false" SourceVersion="Current" />
+                </Parameters>
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="N010" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="N010" msprop:Generator_DataSetName="N010">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="来店ポイント" msprop:Generator_RowEvHandlerName="来店ポイントRowChangeEventHandler" msprop:Generator_RowDeletedName="来店ポイントRowDeleted" msprop:Generator_RowDeletingName="来店ポイントRowDeleting" msprop:Generator_RowEvArgName="来店ポイントRowChangeEvent" msprop:Generator_TablePropName="来店ポイント" msprop:Generator_RowChangedName="来店ポイントRowChanged" msprop:Generator_RowChangingName="来店ポイントRowChanging" msprop:Generator_UserTableName="来店ポイント" msprop:Generator_TableClassName="来店ポイントDataTable" msprop:Generator_RowClassName="来店ポイントRow" msprop:Generator_TableVarName="table来店ポイント">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="顧客管理番号" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="顧客管理番号" msprop:Generator_ColumnPropNameInTable="顧客管理番号Column" msprop:Generator_ColumnVarNameInTable="column顧客管理番号" msprop:Generator_UserColumnName="顧客管理番号" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="年月日" msprop:Generator_ColumnPropNameInRow="年月日" msprop:Generator_ColumnPropNameInTable="年月日Column" msprop:Generator_ColumnVarNameInTable="column年月日" msprop:Generator_UserColumnName="年月日" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="合計金額" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="合計金額" msprop:Generator_ColumnPropNameInTable="合計金額Column" msprop:Generator_ColumnVarNameInTable="column合計金額" msprop:Generator_UserColumnName="合計金額" type="xs:int" minOccurs="0" />
+              <xs:element name="付与ポイント" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="付与ポイント" msprop:Generator_ColumnPropNameInTable="付与ポイントColumn" msprop:Generator_ColumnVarNameInTable="column付与ポイント" msprop:Generator_UserColumnName="付与ポイント" type="xs:int" minOccurs="0" />
+              <xs:element name="使用ポイント数" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="使用ポイント数" msprop:Generator_ColumnPropNameInTable="使用ポイント数Column" msprop:Generator_ColumnVarNameInTable="column使用ポイント数" msprop:Generator_UserColumnName="使用ポイント数" type="xs:int" minOccurs="0" />
+              <xs:element name="ポイント掛率" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="ポイント掛率" msprop:Generator_ColumnPropNameInTable="ポイント掛率Column" msprop:Generator_ColumnVarNameInTable="columnポイント掛率" msprop:Generator_UserColumnName="ポイント掛率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="加算ポイント" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="加算ポイント" msprop:Generator_ColumnPropNameInTable="加算ポイントColumn" msprop:Generator_ColumnVarNameInTable="column加算ポイント" msprop:Generator_UserColumnName="加算ポイント" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="T_ポイント" msprop:Generator_RowEvHandlerName="T_ポイントRowChangeEventHandler" msprop:Generator_RowDeletedName="T_ポイントRowDeleted" msprop:Generator_RowDeletingName="T_ポイントRowDeleting" msprop:Generator_RowEvArgName="T_ポイントRowChangeEvent" msprop:Generator_TablePropName="T_ポイント" msprop:Generator_RowChangedName="T_ポイントRowChanged" msprop:Generator_RowChangingName="T_ポイントRowChanging" msprop:Generator_UserTableName="T_ポイント" msprop:Generator_TableClassName="T_ポイントDataTable" msprop:Generator_RowClassName="T_ポイントRow" msprop:Generator_TableVarName="tableT_ポイント">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="顧客管理番号" msprop:Generator_ColumnPropNameInRow="顧客管理番号" msprop:Generator_ColumnPropNameInTable="顧客管理番号Column" msprop:Generator_ColumnVarNameInTable="column顧客管理番号" msprop:Generator_UserColumnName="顧客管理番号">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ポイント" msprop:Generator_ColumnPropNameInRow="ポイント" msprop:Generator_ColumnPropNameInTable="ポイントColumn" msprop:Generator_ColumnVarNameInTable="columnポイント" msprop:Generator_UserColumnName="ポイント" type="xs:int" minOccurs="0" />
+              <xs:element name="有効年月日" msprop:Generator_ColumnPropNameInRow="有効年月日" msprop:Generator_ColumnPropNameInTable="有効年月日Column" msprop:Generator_ColumnVarNameInTable="column有効年月日" msprop:Generator_UserColumnName="有効年月日" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="8" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:T_ポイント" />
+      <xs:field xpath="mstns:顧客管理番号" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

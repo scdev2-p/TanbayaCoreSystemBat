@@ -1,0 +1,151 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+N170
+</name>
+</assembly>
+<members>
+<member name="T:N170.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:N170.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:N170.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:N170.N170">
+<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+<member name="T:N170.N170.品番別効率表DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N170.N170.効率表集計DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N170.N170.品番別効率表99以外DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N170.N170.T_部門別効率表DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N170.N170.品番別効率表Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N170.N170.効率表集計Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N170.N170.品番別効率表99以外Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N170.N170.T_部門別効率表Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N170.N170.品番別効率表RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N170.N170.効率表集計RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N170.N170.品番別効率表99以外RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N170.N170.T_部門別効率表RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N170.N170TableAdapters.品番別効率表TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N170.N170TableAdapters.効率表集計TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N170.N170TableAdapters.品番別効率表99以外TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N170.N170TableAdapters.T_部門別効率表TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N170.N170TableAdapters.TableAdapterManager">
+<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+<member name="M:N170.N170TableAdapters.TableAdapterManager.UpdateUpdatedRows(N170.N170,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Update rows in top-down order.
+</summary>
+</member>
+<member name="M:N170.N170TableAdapters.TableAdapterManager.UpdateInsertedRows(N170.N170,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Insert rows in top-down order.
+</summary>
+</member>
+<member name="M:N170.N170TableAdapters.TableAdapterManager.UpdateDeletedRows(N170.N170,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Delete rows in bottom-up order.
+</summary>
+</member>
+<member name="M:N170.N170TableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member>
+<member name="M:N170.N170TableAdapters.TableAdapterManager.UpdateAll(N170.N170)">
+<summary>
+Update all changes to the dataset.
+</summary>
+</member>
+<member name="T:N170.N170TableAdapters.TableAdapterManager.UpdateOrderOption">
+<summary>
+Update Order Option
+</summary>
+</member>
+<member name="T:N170.N170TableAdapters.TableAdapterManager.SelfReferenceComparer">
+<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member>
+</members>
+</doc>

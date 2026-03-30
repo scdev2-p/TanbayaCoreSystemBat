@@ -1,0 +1,999 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+N050
+</name>
+</assembly>
+<members>
+<member name="T:N050.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:N050.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:N050.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="M:N050.Module1.getUriageSeq(System.String)">
+ <summary>
+ 売上連番を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.ShohinKanriNo">
+ <summary>
+ 商品管理番号を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.ZaikoKubun">
+ <summary>
+ 在庫区分を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.IsSetShohin">
+ <summary>
+ セット商品フラグを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.IsShokaNohin">
+ <summary>
+ 消化納品フラグを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.isOutOfZaiko">
+ <summary>
+ 在庫対象外フラグを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.ShohinName">
+ <summary>
+ 商品名を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.ShohinCode">
+ <summary>
+ 商品コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.BarCode">
+ <summary>
+ バーコードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.KakerituCode">
+ <summary>
+ 掛率コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.FloorCode">
+ <summary>
+ フロアコードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.ShohinGroupCode">
+ <summary>
+ 商品グループコードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.ShiireCode">
+ <summary>
+ 仕入先コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.ShiireRirekiNo">
+ <summary>
+ 仕入先履歴番号を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.KokyakuKanriNo">
+ <summary>
+ 顧客管理番号を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.KokyakuName">
+ <summary>
+ 顧客名を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.KokyakuCode">
+ <summary>
+ 顧客コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.DaihyoKokyakuCode">
+ <summary>
+ 代表顧客コードを設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.JodaiTanka">
+ <summary>
+ 上代単価を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.GedaiTanka">
+ <summary>
+ 下代単価を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.Suryo">
+ <summary>
+ 数量を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.HanbaiKingaku">
+ <summary>
+ 販売金額を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.TantoShainCode">
+ <summary>
+ 売上担当者番号を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:N050.ZaikoValueObject.TantoShainName">
+ <summary>
+ 売上担当者名を設定、取得する
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.ZaikoHosei.ExecuteZaikoHikiateUriage(System.String,System.String,System.Collections.Generic.List{N050.ZaikoValueObject},System.String,System.Decimal)">
+ <summary>
+ 売上と廃棄時の在庫引当を実行する
+ 
+ ・T在庫への更新
+ ・T売上への登録
+ 
+ ※在庫対象外の場合は、T売上のみ登録を行う
+ ※T在庫に当該商品レコードがなかった場合の処理
+ 　売上の場合：ダミー仕入在庫で計上
+ 　返品の場合：最新の仕入伝票番号で計上
+ </summary>
+ <param name="denpyoDate">レジ伝票日付</param>
+ <param name="registerDenpyoNo">レジ伝票番号（出力レジ番号(3桁)＋レジ伝票連番(4桁)）</param>
+ <param name="regMeisaiList">在庫ValueObject（レジ伝票明細ベース）</param>
+ <param name="nebikiRate">値引率</param>
+ <param name="haikiDenpyoNo">廃棄伝票番号（廃棄処理の場合にのみ指定）</param>
+ <remarks></remarks>
+</member>
+<member name="M:N050.ZaikoHosei.hikiateShohin(N050.N050TableAdapters.T_売上TableAdapter@,N050.N050TableAdapters.T_商品アクセスTableAdapter@,N050.N050TableAdapters.T_在庫TableAdapter@,N050.N050TableAdapters.T_仕入明細TableAdapter@,System.String,System.String,System.String,N050.ZaikoValueObject,System.String,System.Decimal@,System.Decimal@,System.Decimal@,System.Boolean,System.String,System.Int32)">
+ <summary>
+ 通常の商品の在庫引き当て処理を行う
+ </summary>
+ <param name="uriageAdapter">T_売上TableAdapter</param>
+ <param name="accessAdapter">T_商品アクセスTableAdapter</param>
+ <param name="zaikoAdapter">T_在庫TableAdapter</param>
+ <param name="shiireMeisaiAdapter">T_仕入明細TableAdapter</param>
+ <param name="denpyoDate"></param>
+ <param name="denpyoNo">レジ伝票番号</param>
+ <param name="updateUser">更新者</param>
+ <param name="zaiko">在庫ValueObject</param>
+ <param name="haikiDenpyo">廃棄伝票番号</param>
+ <param name="totalGenka">原価金額合計</param>
+ <remarks></remarks>
+</member>
+<member name="M:N050.ZaikoHosei.hikiateShokanohin(N050.N050TableAdapters.T_売上TableAdapter@,N050.N050TableAdapters.T_商品アクセスTableAdapter@,N050.N050TableAdapters.T_仕入TableAdapter@,N050.N050TableAdapters.T_仕入明細TableAdapter@,System.String,System.String,System.String,N050.ZaikoValueObject,System.String)">
+ <summary>
+ 消化納品の在庫引き当て処理を行う
+ </summary>
+ <param name="uriageAdapter">T_売上TableAdapter</param>
+ <param name="accessAdapter">T_商品アクセスTableAdapter</param>
+ <param name="shiireAdapter">T_仕入TableAdapter</param>
+ <param name="shiireMeisaiAdapter">T_仕入明細TableAdapter</param>
+ <param name="denpyoDate"></param>
+ <param name="denpyoNo">レジ伝票番号</param>
+ <param name="updateUser">更新者</param>
+ <param name="zaiko">在庫ValueObject</param>
+ <param name="haikiDenpyo">廃棄伝票番号</param>
+ <remarks></remarks>
+</member>
+<member name="M:N050.ZaikoHosei.insertUriage(N050.N050TableAdapters.T_売上TableAdapter@,N050.N050TableAdapters.T_商品アクセスTableAdapter@,System.String,System.String,System.String,System.String,System.Int32,N050.ZaikoValueObject,System.Boolean,System.String,System.Int32,System.Decimal@,System.Decimal@,System.Decimal@,System.Boolean)">
+ <summary>
+ T売上登録
+ </summary>
+ <param name="uriageAdapter">T_売上TableAdapter</param>
+ <param name="accessAdapter">T_商品アクセスTableAdapter</param>
+ <param name="denpyoDate"></param>
+ <param name="denpyoNo">レジ伝票番号</param>
+ <param name="shiireDenpyoNo">仕入伝票番号</param>
+ <param name="haikiDenpyoNo">廃棄伝票番号</param>
+ <param name="uriageSuryo">売上数量</param>
+ <param name="zaiko">在庫ValueObject</param>
+ <param name="genka">原価金額（単価ではない）</param>
+ <remarks></remarks>
+</member>
+<member name="M:N050.ZaikoHosei.insertSetUriage(N050.N050TableAdapters.T_セット売上TableAdapter@,N050.N050TableAdapters.T_商品アクセスTableAdapter@,System.String,System.String,System.String,System.String,N050.ZaikoValueObject,System.Int32,System.Decimal,System.Decimal,System.Decimal)">
+ <summary>
+ Tセット売上登録
+ </summary>
+ <param name="uriageAdapter">T_セット売上TableAdapter</param>
+ <param name="accessAdapter">T_商品アクセスTableAdapter</param>
+ <param name="denpyoDate"></param>
+ <param name="denpyoNo">レジ伝票番号</param>
+ <param name="shiireDenpyoNo">仕入伝票番号</param>
+ <param name="haikiDenpyoNo">廃棄伝票番号</param>
+ <param name="zaiko">在庫ValueObject</param>
+ <param name="totalGenka">子商品の原価合計合計</param>
+ <remarks></remarks>
+</member>
+<member name="M:N050.ZaikoHosei.insertSetUriageMeisai(N050.N050TableAdapters.T_商品アクセスTableAdapter@,System.String,System.String,System.String,System.String,N050.ZaikoValueObject,System.String,System.Int32,System.Decimal,System.Decimal)">
+ <summary>
+ Tセット売上明細登録
+ </summary>
+ <param name="accessAdapter">T_商品アクセスTableAdapter</param>
+ <param name="denpyoDate"></param>
+ <param name="denpyoNo">レジ伝票番号</param>
+ <param name="shiireDenpyoNo">仕入伝票番号</param>
+ <param name="haikiDenpyoNo">廃棄伝票番号</param>
+ <param name="zaiko">在庫ValueObject</param>
+ <param name="genkaTanka">子商品の原価単価</param>
+ <remarks></remarks>
+</member>
+<member name="M:N050.ZaikoHosei.getGenkaTanka(System.String,System.String)">
+ <summary>
+ 原価単価を取得する
+ </summary>
+ <param name="shiireDenpyoNo">仕入伝票番号</param>
+ <param name="shohinKanriNo">商品管理番号</param>
+ <remarks></remarks>
+</member>
+<member name="M:N050.ZaikoHosei.getSetShohinList(N050.ZaikoValueObject,System.Decimal)">
+ <summary>
+ セット商品を一元化する
+ ※上代・下代・販売金額は子商品の比率で算出する
+ </summary>
+ <param name="parent">セット商品のValueObject</param>
+ <param name="nebikiRate">値引率</param>
+ <remarks></remarks>
+ <returns>セット商品（子商品）</returns>
+</member>
+<member name="M:N050.ZaikoHosei.ExecuteZaikoHikiateMakerHenpin(System.String,System.String,System.Int32,System.String,System.String)">
+ <summary>
+ メーカー返品の在庫引当を実行する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:N050.ZaikoKubun">
+ <summary>
+ 在庫区分
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:N050.ZaikoKubun.Honsha">
+ <summary>
+ 本社在庫
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:N050.ZaikoKubun.Hamacho">
+ <summary>
+ 浜町在庫
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:N050.ZaikoKubun.ShagaiSoko">
+ <summary>
+ 社外倉庫
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.GetHacchuDenpyoNo">
+ <summary>
+ 発注伝票番号を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.GetHenpinDenpyoNo">
+ <summary>
+ 返品伝票番号を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.GetHinbanHenkoDenpyoNo">
+ <summary>
+ 品番変更伝票番号を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.GetHaikiDenpyoNo">
+ <summary>
+ 廃棄伝票番号を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.GetUriageDenpyoNo">
+ <summary>
+ 売上伝票番号を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.GetKokyakuKanriNo">
+ <summary>
+ 顧客管理番号を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.GetTokuyakutenKanriNo">
+ <summary>
+ 特約店管理番号を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.GetShohinKanriNo">
+ <summary>
+ 顧客管理番号を取得する
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.saibanDenpyoExecute(System.String)">
+ <summary>
+ 伝票番号採番処理実行
+ </summary>
+ <param name="saibanKubun"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.saibanKanriNoExecute(System.String)">
+ <summary>
+ 管理番号採番処理実行
+ </summary>
+ <param name="saibanKubun"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.SaibanTran.saibanDataUpdateInsert(System.String,System.String)">
+ <summary>
+ 採番データ更新作成処理
+ </summary>
+ <param name="saibanKubun"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.BlankToNull(System.String)">
+ <summary>
+ 引数が空白の場合はNothingにして返却する
+ </summary>
+ <param name="value">対象文字列</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.NullToString(System.Object)">
+ <summary>
+ 引数が空白の場合は文字列にして返却する
+ </summary>
+ <param name="value">対象文字列</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.NullToDecimalZero(System.Object)">
+ <summary>
+ 引数が空白の場合はゼロにして返却する
+ </summary>
+ <param name="value">対象文字列</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.NullToInt32Zero(System.Object)">
+ <summary>
+ 引数が空白の場合はゼロにして返却する
+ </summary>
+ <param name="value">対象文字列</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.NullToNullableDecimal(System.Object)">
+ <summary>
+ 引数が空白の場合はNothingにして返却する
+ </summary>
+ <param name="value">対象文字列</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.NullToNullableInt32(System.Object)">
+ <summary>
+ 引数が空白の場合はNothingにして返却する
+ </summary>
+ <param name="value">対象文字列</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ValueToDateFormat(System.String)">
+ <summary>
+ 日付変換を行う(yyyyMMdd→yyyy/MM/dd)
+ </summary>
+ <param name="baseDate">変換する日付(YYYYMMDD)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ValueToDateFormat(System.String,System.String)">
+ <summary>
+ 日付変換を行う(yyyyMMdd→指定書式の日付文字列)
+ </summary>
+ <param name="baseDate">変換する日付</param>
+ <param name="format">書式</param>
+ <returns>指定した書式の日付文字列</returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ValueToDate(System.String)">
+ <summary>
+ 日付変換を行う(文字列：yyyyMMdd→Date型)
+ </summary>
+ <param name="baseDate">変換する日付(YYYYMMDD)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ToCommaValue(System.String)">
+ <summary>
+ 引数の値をカンマ編集して返却する
+ </summary>
+ <param name="item">変換する文字列</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ToDayOfWeek(System.String)">
+ <summary>
+ 引数を元に曜日を取得する
+ </summary>
+ <param name="item">曜日変換する日付(YYYY/MM/DD or YYYYMMDD)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ToWareki(System.String)">
+ <summary>
+ 引数を元に和暦に変換して返却する
+ </summary>
+ <param name="item">和暦変換する日付(YYYY/MM/DD or YYYYMMDD)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ToWarekiCollect(System.String)">
+ <summary>
+ 引数を元に和暦に変換して返却する
+ 返却結果はコレクションで返却する
+ コレクションインデックス０：元号
+ コレクションインデックス１：年
+ コレクションインデックス２：月
+ コレクションインデックス３：日
+ </summary>
+ <param name="item">和暦変換する日付(YYYY/MM/DD or YYYYMMDD)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.GetKiStartDateEndDate(System.DateTime)">
+ <summary>
+ 引数をもとに期の開始年月日、終了年月日を返却する
+ </summary>
+ <param name="targetDate">YYYYMMDD形式</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.GetKamihanKiStartDateEndDate(System.DateTime)">
+ <summary>
+ 引数をもとに期（前半）の開始年月日、終了年月日を返却する
+ </summary>
+ <param name="targetDate">YYYYMMDD形式</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.GetShimohanKiStartDateEndDate(System.DateTime)">
+ <summary>
+ 引数をもとに期（後半）の開始年月日、終了年月日を返却する
+ </summary>
+ <param name="targetDate">YYYYMMDD形式</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ConvertCardNo(System.String,System.String@)">
+ <summary>
+ カード番号の変換処理
+ カード番号が正しくない場合はエラーを返す
+ 
+ カード番号が13桁の場合は変換処理を行う。
+ ・13桁目はチェックデジットなので無視
+ ・1桁目が「0」、2～4桁目が「000」～「255」の場合は、M顧客用のカード番号
+ ・1～5桁目が「99999」の場合は、M特約店用のカード番号    
+ ＜M顧客＞
+ 　2～4桁目をJISコード変換
+ 　10～13桁目をJISコード変換。ただし「000」、「255」以上の場合は無視
+ ＜M特約店＞
+ 　6～12桁目をカード番号とする
+ </summary>
+ <param name="cardNo">in変換するカード番号</param>
+ <param name="formatedCardNo">out変換後のカード番号</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.SubString(System.String,System.Int32)">
+ <summary>
+ 文字列を指定した桁数でカットする
+ 指定文字数よりも短い場合はカットしない
+ </summary>
+ <param name="item">カットする文字列</param>
+ <param name="length">桁数</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.JyodaiToShisuJyodai(System.String)">
+ <summary>
+ 上代を指数に変換する
+ </summary>
+ <param name="jyodai">上代</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.ShisuJyodaiToJyodai(System.String)">
+ <summary>
+ 上代を指数に変換する
+ </summary>
+ <param name="shisuJyoodai">上代</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.GetCheckDigit(System.String)">
+ <summary>
+ チェックディジットを算出する
+ </summary>
+ <param name="item"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.Converter.GetShiireInputDateToShukeiYM(System.String)">
+ <summary>
+ 仕入入力日から集計年月を取得する
+ </summary>
+ <param name="shiireDate">仕入入力日(年月日)</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.TnbKingaku.GetGedai(System.Decimal,System.Decimal,System.Boolean,System.Decimal)">
+ <summary>
+ 上代・掛率・ランク掛率から、下代を算出する
+ クラス割引＝購入者により変動する「値引率」
+ ※購入者の指定がなく、割引した金額を算出する必要がない場合には、第3,4引数は指定しなくてよい
+ </summary>
+ <param name="jodai">商品の上代金額</param>
+ <param name="kakeritu">商品の掛率（掛率コードではなく、M_掛率から取得した掛率を指定）</param>
+ <param name="rankFlg">ランク適用フラグ（購入者のランク割引を適用するかどうか）</param>
+ <param name="rankWaribiki">ランクの割引率（購入者のランクにより決定する割引率）</param>
+ <returns>算出した下代を返す</returns>
+ <remarks></remarks>
+</member>
+<member name="M:N050.TnbKingaku.ToRoundUp(System.Decimal)">
+ <summary>
+ 小数点以下の切り上げを行う
+ </summary>
+ <param name="value">切り上げを行う値</param>
+ <remarks></remarks>
+</member>
+<member name="T:N050.N050">
+<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+<member name="T:N050.N050.T_売上DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.M_コードDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_商品アクセスDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_在庫DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_浜町出庫DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_浜町入庫DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_セット売上DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_仕入DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_仕入明細DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.M_商品DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.M_セット商品DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.M_掛率DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_採番DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.SystemDateDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.M_カレンダDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N050.N050.T_売上Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.M_コードRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_商品アクセスRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_在庫Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_浜町出庫Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_浜町入庫Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_セット売上Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_仕入Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_仕入明細Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.M_商品Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.M_セット商品Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.M_掛率Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_採番Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.SystemDateRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.M_カレンダRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N050.N050.T_売上RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.M_コードRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.T_商品アクセスRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.T_在庫RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.T_浜町出庫RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.T_浜町入庫RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.T_セット売上RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.T_仕入RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.T_仕入明細RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.M_商品RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.M_セット商品RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.M_掛率RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.T_採番RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.SystemDateRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050.M_カレンダRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_売上TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.M_コードTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_商品アクセスTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_在庫TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_浜町出庫TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_浜町入庫TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_セット売上TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_仕入TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_仕入明細TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.M_商品TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.M_セット商品TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.M_掛率TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.T_採番TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.SystemDateTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.M_カレンダTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.TableAdapterManager">
+<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+<member name="M:N050.N050TableAdapters.TableAdapterManager.UpdateUpdatedRows(N050.N050,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Update rows in top-down order.
+</summary>
+</member>
+<member name="M:N050.N050TableAdapters.TableAdapterManager.UpdateInsertedRows(N050.N050,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Insert rows in top-down order.
+</summary>
+</member>
+<member name="M:N050.N050TableAdapters.TableAdapterManager.UpdateDeletedRows(N050.N050,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Delete rows in bottom-up order.
+</summary>
+</member>
+<member name="M:N050.N050TableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member>
+<member name="M:N050.N050TableAdapters.TableAdapterManager.UpdateAll(N050.N050)">
+<summary>
+Update all changes to the dataset.
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.TableAdapterManager.UpdateOrderOption">
+<summary>
+Update Order Option
+</summary>
+</member>
+<member name="T:N050.N050TableAdapters.TableAdapterManager.SelfReferenceComparer">
+<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member>
+</members>
+</doc>

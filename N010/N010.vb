@@ -1,0 +1,48 @@
+﻿Namespace N010TableAdapters
+
+    Partial Class QueriesTableAdapter
+
+        Public Sub New(timeOut As Int32)
+
+            MyBase.New()
+
+            For Each cmd As SqlClient.SqlCommand In Me.CommandCollection
+                cmd.CommandTimeout = timeOut
+            Next
+
+        End Sub
+
+    End Class
+
+    Partial Class T_ポイントTableAdapter
+
+        Public Sub New(timeOut As Int32)
+
+            MyBase.New()
+
+            For Each cmd As SqlClient.SqlCommand In Me.CommandCollection
+                cmd.CommandTimeout = timeOut
+            Next
+
+        End Sub
+
+    End Class
+
+    Partial Class 来店ポイントTableAdapter
+
+        Public Sub New(timeOut As Int32)
+
+            MyBase.New()
+
+            For Each cmd As SqlClient.SqlCommand In Me.CommandCollection
+                cmd.CommandTimeout = timeOut
+            Next
+
+        End Sub
+
+    End Class
+
+End Namespace
+
+Partial Class N010
+End Class

@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="N042" targetNamespace="http://tempuri.org/N042.xsd" xmlns:mstns="http://tempuri.org/N042.xsd" xmlns="http://tempuri.org/N042.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="棚卸事前集計TableAdapter" GeneratorFunctionsComponentClassName="棚卸事前集計TableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" UserFunctionsComponentName="棚卸事前集計TableAdapter" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="tnbConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="tnbConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.N042.My.MySettings.GlobalReference.Default.tnbConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="DeleteTanaoroshiJizenShukei" MethodsParameterType="CLR" Modifier="Public" Name="DeleteTanaoroshiJizenShukei" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="DeleteTanaoroshiJizenShukei">
+            <DeleteCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>DELETE FROM [T_棚卸事前集計]
+WHERE [棚卸年月] = (SELECT       SUBSTRING(コード名称,1,6)
+                                   FROM  M_コード
+                                 WHERE       大区分 = '930'
+                                     AND        中区分 = '002')</CommandText>
+                <Parameters />
+              </DbCommand>
+            </DeleteCommand>
+          </DbSource>
+          <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertTanaoroshiJizenShukei" MethodsParameterType="CLR" Modifier="Public" Name="InsertTanaoroshiJizenShukei" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="InsertTanaoroshiJizenShukei">
+            <InsertCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>INSERT INTO  T_棚卸事前集計
+              (棚卸年月,
+               商品管理番号,
+                在庫区分,
+                 論理数量,
+                  論理原価単価合計,
+                   論理上代単価合計,
+                    登録者番号,
+                     登録日)
+                     
+SELECT            (SELECT       SUBSTRING(コード名称,1,6)
+                           FROM  M_コード
+                         WHERE       大区分 = '930'
+                             AND        中区分 = '002'),
+ ZAIKO.商品管理番号,
+  ZAIKO.在庫区分,
+   SUM(ZAIKO.数量) AS 論理数量,
+    SUM(ZAIKO.数量 * SHOUHIN.原価単価) AS 論理原価単価合計,
+    SUM(ZAIKO.数量 * SHOUHIN.上代単価) AS 論理上代単価合計,
+     'BAT' AS Expr2, 
+     GETDATE() AS Expr3
+FROM              T_在庫 AS ZAIKO INNER JOIN
+                        M_商品 AS SHOUHIN ON ZAIKO.商品管理番号 = SHOUHIN.商品管理番号
+GROUP BY      ZAIKO.商品管理番号, ZAIKO.在庫区分</CommandText>
+                <Parameters />
+              </DbCommand>
+            </InsertCommand>
+          </DbSource>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="N042" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="N042" msprop:Generator_UserDSName="N042">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

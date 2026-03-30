@@ -1,0 +1,116 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+N070
+</name>
+</assembly>
+<members>
+<member name="T:N070.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:N070.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:N070.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:N070.N070">
+<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member>
+<member name="T:N070.N070.M_フロアDataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N070.N070.T_売上DataTable">
+<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member>
+<member name="T:N070.N070.M_フロアRow">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N070.N070.T_売上Row">
+<summary>
+Represents strongly named DataRow class.
+</summary>
+</member>
+<member name="T:N070.N070.M_フロアRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N070.N070.T_売上RowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:N070.N070TableAdapters.M_フロアTableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N070.N070TableAdapters.T_売上TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N070.N070TableAdapters.売上ベスト10TableAdapter">
+<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member>
+<member name="T:N070.N070TableAdapters.TableAdapterManager">
+<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member>
+<member name="M:N070.N070TableAdapters.TableAdapterManager.UpdateUpdatedRows(N070.N070,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Update rows in top-down order.
+</summary>
+</member>
+<member name="M:N070.N070TableAdapters.TableAdapterManager.UpdateInsertedRows(N070.N070,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Insert rows in top-down order.
+</summary>
+</member>
+<member name="M:N070.N070TableAdapters.TableAdapterManager.UpdateDeletedRows(N070.N070,System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Delete rows in bottom-up order.
+</summary>
+</member>
+<member name="M:N070.N070TableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member>
+<member name="M:N070.N070TableAdapters.TableAdapterManager.UpdateAll(N070.N070)">
+<summary>
+Update all changes to the dataset.
+</summary>
+</member>
+<member name="T:N070.N070TableAdapters.TableAdapterManager.UpdateOrderOption">
+<summary>
+Update Order Option
+</summary>
+</member>
+<member name="T:N070.N070TableAdapters.TableAdapterManager.SelfReferenceComparer">
+<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member>
+</members>
+</doc>

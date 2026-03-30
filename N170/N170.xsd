@@ -1,0 +1,958 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="N170" targetNamespace="http://tempuri.org/N170.xsd" xmlns:mstns="http://tempuri.org/N170.xsd" xmlns="http://tempuri.org/N170.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="MySettings" AppSettingsPropertyName="tnbConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="tnbConnectionString (MySettings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.N170.My.MySettings.GlobalReference.Default.tnbConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="品番別効率表TableAdapter" GeneratorDataComponentClassName="品番別効率表TableAdapter" Name="品番別効率表" UserDataComponentName="品番別効率表TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="SelectKourituList" GetMethodModifier="Public" GetMethodName="SelectKourituList" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="SelectKourituList" UserSourceName="SelectKourituList">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT	 MSHOHIN.フロアコード
+		,MSHOHIN.フロア名
+		,MSHOHIN.品番
+		,MSHOHIN.商品グループ名カナ 
+		,ISNULL(TGESHO.月首原価,0) 月首原価
+		,ISNULL(TGESHO.月首上代,0) 月首上代
+		,ISNULL(SHIIRE.仕入原価,0) 仕入原価
+		,ISNULL(SHIIRE.仕入上代,0) 仕入上代
+		,ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0) 原価合計
+		,ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0) 上代合計
+		,ISNULL(TGESHO.月末原価,0) 月末原価
+		,ISNULL(TGESHO.月末上代,0) 月末上代
+		,(ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - ISNULL(SHIIRE.廃棄原価,0) - ISNULL(THIBETU.原価売上,0) 月末原価_棚卸
+		,(ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0)) - ISNULL(SHIIRE.廃棄上代,0) - ISNULL(THIBETU.上代売上,0) 月末上代_棚卸
+		,ISNULL(TTANA.棚卸前数量,0) 月末個数
+		,ISNULL(THIBETU.原価売上,0) 原価売上
+		,ISNULL(THIBETU.上代売上,0)	上代売上
+		,ISNULL(THIBETU.粗利金額,0)	粗利金額
+		,ISNULL(THIBETU.売価売上,0)	売価売上
+		,CASE WHEN ISNULL(THIBETU.当月売上,0) = 0 THEN NULL ELSE ISNULL(THIBETU.売価売上,0) / ISNULL(THIBETU.当月売上,0) END 売上構成比
+		,CASE WHEN ISNULL(THIBETU.当月粗利,0) = 0 THEN NULL ELSE ISNULL(THIBETU.粗利金額,0) / ISNULL(THIBETU.当月粗利,0) END 粗利構成比
+		,CASE WHEN ISNULL(THIBETU.売価売上,0) = 0 THEN NULL ELSE ISNULL(THIBETU.粗利金額,0) / ISNULL(THIBETU.売価売上,0) END 粗利率
+		,ISNULL(SHIIRE.廃棄上代,0) 廃棄上代
+				,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 THEN NULL
+			ELSE ISNULL(THIBETU.売価売上,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2) END 回転率
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 OR ISNULL(THIBETU.売価売上,0) = 0 THEN NULL
+			ELSE EIGYODAYCOUNT.営業日数 / (ISNULL(THIBETU.売価売上,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2)) END 在庫日数
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 THEN NULL
+			ELSE ISNULL(THIBETU.粗利金額,0) / (ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) * 2 END 交差率
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 OR ISNULL(THIBETU.粗利金額,0) = 0 THEN NULL
+			ELSE EIGYODAYCOUNT.営業日数 / (ISNULL(THIBETU.粗利金額,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2)) END 交差日数
+		,ISNULL(TTANAA.棚卸後原価,0) 実質原価
+		,ISNULL(TTANAA.棚卸後原価,0) - ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - ISNULL(SHIIRE.廃棄原価,0) - ISNULL(THIBETU.原価売上,0)) 原価差額
+		,ISNULL(TTANAA.棚卸後上代,0) 実質上代
+		,ISNULL(TTANAA.棚卸後上代,0) - ((ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0)) - ISNULL(SHIIRE.廃棄上代,0) - ISNULL(THIBETU.上代売上,0)) 上代差額
+		,ISNULL(TTANAA.棚卸後数量,0) 実質個数
+		,ISNULL(TTANAA.棚卸後数量,0) - ISNULL(TTANA.棚卸前数量,0) 個数差
+		,EIGYODAYCOUNT.営業日数
+FROM	(SELECT	 CASE WHEN SUBSTRING(MSHOHING.フロアコード + MSHOHING.商品グループコード,1,2) = '99'
+					THEN '99*'
+					ELSE MSHOHING.フロアコード + '**' 
+				 END フロアコード
+				,MFLOOR.フロア名
+				,MSHOHING.フロアコード + MSHOHING.商品グループコード [3桁品番]
+				,MSHOHING.フロアコード + MSHOHING.商品グループコード 品番
+				,MSHOHING.商品グループ名カナ
+		 FROM	 M_商品グループ MSHOHING
+		 INNER JOIN M_フロア MFLOOR ON MSHOHING.フロアコード = MFLOOR.フロアコード
+		 GROUP BY CASE WHEN SUBSTRING(MSHOHING.フロアコード + MSHOHING.商品グループコード,1,2) = '99'
+					THEN '99*'
+					ELSE MSHOHING.フロアコード + '**' 
+				 END
+				,MFLOOR.フロア名
+				,MSHOHING.フロアコード + MSHOHING.商品グループコード
+				,MSHOHING.商品グループ名カナ) MSHOHIN
+LEFT OUTER JOIN (SELECT	 TGESHO.[3桁品番]
+						,SUM(CASE WHEN TGESHO.在庫年月 = @前月 THEN TGESHO.原価単価合計 ELSE 0 END) 月首原価
+						,SUM(CASE WHEN TGESHO.在庫年月 = @前月 THEN TGESHO.上代単価合計 ELSE 0 END) 月首上代 
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.原価単価合計 ELSE 0 END) 月末原価
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.上代単価合計 ELSE 0 END) 月末上代 
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.数量 ELSE 0 END) 月末個数 
+				 FROM	 T_月初在庫 TGESHO 
+				 WHERE	 TGESHO.在庫年月 IN ( @前月 , @当月 )
+				 GROUP BY TGESHO.[3桁品番]) TGESHO
+				 ON MSHOHIN.[3桁品番] = TGESHO.[3桁品番]
+LEFT OUTER JOIN (SELECT	 MSHOHIN.[3桁品番]
+						,SUM(CASE WHEN TSHIIRE.仕入区分 &lt;&gt; '9' THEN TSHIIREM.数量 * TSHIIREM.原価単価 ELSE 0 END) 仕入原価
+						,SUM(CASE WHEN TSHIIRE.仕入区分 &lt;&gt; '9' THEN TSHIIREM.数量 * TSHIIREM.上代単価 ELSE 0 END) 仕入上代
+						,SUM(CASE WHEN TSHIIRE.仕入区分 = '9' THEN TSHIIREM.数量 * TSHIIREM.原価単価 * -1 ELSE 0 END) 廃棄原価
+						,SUM(CASE WHEN TSHIIRE.仕入区分 = '9' THEN TSHIIREM.数量 * TSHIIREM.上代単価 * -1 ELSE 0 END) 廃棄上代
+				 FROM	 T_仕入 TSHIIRE
+				 INNER JOIN T_仕入明細 TSHIIREM ON TSHIIRE.仕入伝票番号 = TSHIIREM.仕入伝票番号
+											   AND TSHIIRE.赤黒枝番 = TSHIIREM.赤黒枝番
+				 INNER JOIN M_商品 MSHOHIN ON TSHIIREM.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TSHIIRE.集計年月 = @前月
+				 GROUP BY MSHOHIN.[3桁品番]) SHIIRE
+				 ON MSHOHIN.[3桁品番] = SHIIRE.[3桁品番]
+LEFT OUTER JOIN (SELECT	 THIBETU.[3桁品番]
+						,SUM(THIBETU.下代金額計) 売価売上
+						,SUM(THIBETU.下代金額計) - SUM(THIBETU.粗利金額計) 原価売上
+						,SUM(THIBETU.上代金額計) 上代売上
+						,SUM(THIBETU.粗利金額計) 粗利金額
+						,(SELECT SUM(下代金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月売上
+						,(SELECT SUM(下代金額計) - SUM(粗利金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月原価
+						,(SELECT SUM(粗利金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月粗利
+				 FROM	 T_商品月別実績 THIBETU
+				 WHERE	 THIBETU.対象年月 = @前月
+				 GROUP BY THIBETU.[3桁品番]) THIBETU 
+				 ON MSHOHIN.[3桁品番] = THIBETU.[3桁品番] 
+LEFT OUTER JOIN (SELECT	 MSHOHIN.[3桁品番]
+						,SUM(TTANA.論理原価単価合計) 棚卸前原価
+						,SUM(TTANA.論理上代単価合計) 棚卸前上代
+						,SUM(TTANA.論理数量) 棚卸前数量
+				 FROM	 T_棚卸事前集計 TTANA
+				 INNER JOIN M_商品 MSHOHIN ON TTANA.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TTANA.棚卸年月 = @前月
+				 GROUP BY MSHOHIN.[3桁品番]) TTANA 
+				 ON MSHOHIN.[3桁品番] = TTANA.[3桁品番] 
+LEFT OUTER JOIN (SELECT	 MSHOHIN.[3桁品番]
+						,SUM(TTANA.原価単価合計) 棚卸後原価
+						,SUM(TTANA.上代単価合計) 棚卸後上代
+						,SUM(TTANA.数量) 棚卸後数量
+				 FROM	 T_棚卸明細 TTANA
+				 INNER JOIN M_商品 MSHOHIN ON TTANA.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TTANA.棚卸年月 = @前月
+				 GROUP BY MSHOHIN.[3桁品番]) TTANAA 
+				 ON MSHOHIN.[3桁品番] = TTANAA.[3桁品番]  
+		,(SELECT TOGETUDAY.対象月日数 - KYUGYODAY.休業日 営業日数
+		  FROM	 (SELECT  CAST(DAY(CAST((CAST(YEAR(@当年月日) AS VARCHAR(4))+'-'+CAST(MONTH(@当年月日) AS VARCHAR(2))+'-1') AS DATETIME)-1)AS VARCHAR) 対象月日数) TOGETUDAY
+				,(SELECT	 COUNT(年月日) 休業日	
+				 FROM	 M_カレンダ MCALENDER
+				 WHERE	 MCALENDER.営業フラグ = 0
+				 AND	 SUBSTRING(MCALENDER.年月日,1,6) = @前月) KYUGYODAY ) EIGYODAYCOUNT	 
+ORDER BY 品番
+</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="前月" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@前月" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="当月" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@当月" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="当年月日" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@当年月日" Precision="0" ProviderType="" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="フロアコード" DataSetColumn="フロアコード" />
+              <Mapping SourceColumn="品番" DataSetColumn="品番" />
+              <Mapping SourceColumn="商品グループ名カナ" DataSetColumn="商品グループ名カナ" />
+              <Mapping SourceColumn="月首原価" DataSetColumn="月首原価" />
+              <Mapping SourceColumn="月首上代" DataSetColumn="月首上代" />
+              <Mapping SourceColumn="仕入原価" DataSetColumn="仕入原価" />
+              <Mapping SourceColumn="仕入上代" DataSetColumn="仕入上代" />
+              <Mapping SourceColumn="原価合計" DataSetColumn="原価合計" />
+              <Mapping SourceColumn="上代合計" DataSetColumn="上代合計" />
+              <Mapping SourceColumn="月末原価" DataSetColumn="月末原価" />
+              <Mapping SourceColumn="月末上代" DataSetColumn="月末上代" />
+              <Mapping SourceColumn="月末個数" DataSetColumn="月末個数" />
+              <Mapping SourceColumn="原価売上" DataSetColumn="原価売上" />
+              <Mapping SourceColumn="上代売上" DataSetColumn="上代売上" />
+              <Mapping SourceColumn="粗利金額" DataSetColumn="粗利金額" />
+              <Mapping SourceColumn="売価売上" DataSetColumn="売価売上" />
+              <Mapping SourceColumn="売上構成比" DataSetColumn="売上構成比" />
+              <Mapping SourceColumn="粗利構成比" DataSetColumn="粗利構成比" />
+              <Mapping SourceColumn="粗利率" DataSetColumn="粗利率" />
+              <Mapping SourceColumn="廃棄上代" DataSetColumn="廃棄上代" />
+              <Mapping SourceColumn="回転率" DataSetColumn="回転率" />
+              <Mapping SourceColumn="在庫日数" DataSetColumn="在庫日数" />
+              <Mapping SourceColumn="交差率" DataSetColumn="交差率" />
+              <Mapping SourceColumn="交差日数" DataSetColumn="交差日数" />
+              <Mapping SourceColumn="実質個数" DataSetColumn="実質個数" />
+              <Mapping SourceColumn="個数差" DataSetColumn="個数差" />
+              <Mapping SourceColumn="フロア名" DataSetColumn="フロア名" />
+              <Mapping SourceColumn="営業日数" DataSetColumn="営業日数" />
+              <Mapping SourceColumn="実質原価" DataSetColumn="実質原価" />
+              <Mapping SourceColumn="原価差額" DataSetColumn="原価差額" />
+              <Mapping SourceColumn="実質上代" DataSetColumn="実質上代" />
+              <Mapping SourceColumn="上代差額" DataSetColumn="上代差額" />
+              <Mapping SourceColumn="月末原価_棚卸" DataSetColumn="月末原価_棚卸" />
+              <Mapping SourceColumn="月末上代_棚卸" DataSetColumn="月末上代_棚卸" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="効率表集計TableAdapter" GeneratorDataComponentClassName="効率表集計TableAdapter" Name="効率表集計" UserDataComponentName="効率表集計TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="SELECT TOGETUDAY.対象月日数 - KYUGYODAY.休業日 営業日数 FROM (SELECT CAST(DAY(CAST((CAST(YEAR(@当年月日) AS VARCHAR(4))+'-'+CAST(MONTH(@当年月日) AS VARCHAR(2))+'-1') AS DATETIME)-1)AS VARCHAR) 対象月日数) TOGETUDAY ,(SELECT COUNT(年月日) 休業日 FROM M_カレンダ MCALENDER WHERE MCALENDER.営業フラグ = 0 AND SUBSTRING(MCALENDER.年月日,1,6) = @前月) KYUGYODAY" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="SelectFloorBetweenSummary" GetMethodModifier="Public" GetMethodName="SelectFloorBetweenSummary" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="SelectFloorBetweenSummary" UserSourceName="SelectFloorBetweenSummary">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT	 @フロアコード フロアコード
+		,@フロア名 フロア名
+		,@フロアコード 品番
+		,@フロア名 商品グループ名カナ
+		,ISNULL(TGESHO.月首原価,0) 月首原価
+		,ISNULL(TGESHO.月首上代,0) 月首上代
+		,ISNULL(SHIIRE.仕入原価,0) 仕入原価
+		,ISNULL(SHIIRE.仕入上代,0) 仕入上代
+		,ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0) 原価合計
+		,ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0) 上代合計
+		,ISNULL(TGESHO.月末原価,0) 月末原価
+		,ISNULL(TGESHO.月末上代,0) 月末上代
+		,(ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - ISNULL(SHIIRE.廃棄原価,0) - ISNULL(THIBETU.原価売上,0) 月末原価_棚卸
+		,(ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0)) - ISNULL(SHIIRE.廃棄上代,0) - ISNULL(THIBETU.上代売上,0) 月末上代_棚卸
+		,ISNULL(TTANA.棚卸前数量,0) 月末個数
+		,ISNULL(THIBETU.原価売上,0) 原価売上
+		,ISNULL(THIBETU.上代売上,0)	上代売上
+		,ISNULL(THIBETU.粗利金額,0)	粗利金額
+		,ISNULL(THIBETU.売価売上,0)	売価売上
+		,CASE WHEN ISNULL(THIBETU.当月売上,0) = 0 THEN NULL ELSE ISNULL(THIBETU.売価売上,0) / ISNULL(THIBETU.当月売上,0) END 売上構成比
+		,CASE WHEN ISNULL(THIBETU.当月粗利,0) = 0 THEN NULL ELSE ISNULL(THIBETU.粗利金額,0) / ISNULL(THIBETU.当月粗利,0) END 粗利構成比
+		,CASE WHEN ISNULL(THIBETU.売価売上,0) = 0 THEN NULL ELSE ISNULL(THIBETU.粗利金額,0) / ISNULL(THIBETU.売価売上,0) END 粗利率
+		,ISNULL(SHIIRE.廃棄上代,0) 廃棄上代
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 THEN NULL
+			ELSE ISNULL(THIBETU.売価売上,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2) END 回転率
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 OR ISNULL(THIBETU.売価売上,0) = 0 THEN NULL
+			ELSE EIGYODAYCOUNT.営業日数 / (ISNULL(THIBETU.売価売上,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2)) END 在庫日数
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 THEN NULL
+			ELSE ISNULL(THIBETU.粗利金額,0) / (ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) * 2 END 交差率
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 OR ISNULL(THIBETU.粗利金額,0) = 0 THEN NULL
+			ELSE EIGYODAYCOUNT.営業日数 / (ISNULL(THIBETU.粗利金額,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2)) END 交差日数
+		,ISNULL(TTANAA.棚卸後原価,0) 実質原価
+		,ISNULL(TTANAA.棚卸後原価,0) - ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - ISNULL(SHIIRE.廃棄原価,0) - ISNULL(THIBETU.原価売上,0)) 原価差額
+		,ISNULL(TTANAA.棚卸後上代,0) 実質上代
+		,ISNULL(TTANAA.棚卸後上代,0) - ((ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0)) - ISNULL(SHIIRE.廃棄上代,0) - ISNULL(THIBETU.上代売上,0)) 上代差額
+		,ISNULL(TTANAA.棚卸後数量,0) 実質個数
+		,ISNULL(TTANAA.棚卸後数量,0) - ISNULL(TTANA.棚卸前数量,0) 個数差
+		,ISNULL(TGESHO.月末個数,0) - ISNULL(TTANA.棚卸前数量,0) 個数差
+		,EIGYODAYCOUNT.営業日数
+FROM	(SELECT  '***' フロアコード
+				,@フロア名 フロア名) MFLOOR
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(CASE WHEN TGESHO.在庫年月 = @前月 THEN TGESHO.原価単価合計 ELSE 0 END) 月首原価
+						,SUM(CASE WHEN TGESHO.在庫年月 = @前月 THEN TGESHO.上代単価合計 ELSE 0 END) 月首上代 
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.原価単価合計 ELSE 0 END) 月末原価
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.上代単価合計 ELSE 0 END) 月末上代 
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.数量 ELSE 0 END) 月末個数 
+				 FROM	 T_月初在庫 TGESHO 
+				 WHERE	 TGESHO.在庫年月 IN ( @前月 , @当月 )
+				 AND	 TGESHO.フロアコード BETWEEN @フロアFROM AND @フロアTO) TGESHO
+				 ON MFLOOR.フロアコード = TGESHO.フロアコード
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(CASE WHEN TSHIIRE.仕入区分 &lt;&gt; '9' THEN TSHIIREM.数量 * TSHIIREM.原価単価 ELSE 0 END) 仕入原価
+						,SUM(CASE WHEN TSHIIRE.仕入区分 &lt;&gt; '9' THEN TSHIIREM.数量 * TSHIIREM.上代単価 ELSE 0 END) 仕入上代
+						,SUM(CASE WHEN TSHIIRE.仕入区分 = '9' THEN TSHIIREM.数量 * TSHIIREM.原価単価 * -1 ELSE 0 END) 廃棄原価
+						,SUM(CASE WHEN TSHIIRE.仕入区分 = '9' THEN TSHIIREM.数量 * TSHIIREM.上代単価 * -1 ELSE 0 END) 廃棄上代
+				 FROM	 T_仕入 TSHIIRE
+				 INNER JOIN T_仕入明細 TSHIIREM ON TSHIIRE.仕入伝票番号 = TSHIIREM.仕入伝票番号
+											   AND TSHIIRE.赤黒枝番 = TSHIIREM.赤黒枝番
+				 INNER JOIN M_商品 MSHOHIN ON TSHIIREM.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TSHIIRE.集計年月 = @前月
+				 AND	 MSHOHIN.フロアコード BETWEEN @フロアFROM AND @フロアTO) SHIIRE
+				 ON MFLOOR.フロアコード = SHIIRE.フロアコード
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(THIBETU.下代金額計) 売価売上
+						,SUM(THIBETU.下代金額計) - SUM(THIBETU.粗利金額計) 原価売上
+						,SUM(THIBETU.上代金額計) 上代売上
+						,SUM(THIBETU.粗利金額計) 粗利金額
+						,(SELECT SUM(下代金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月売上
+						,(SELECT SUM(下代金額計) - SUM(粗利金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月原価
+						,(SELECT SUM(粗利金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月粗利
+				 FROM	 T_商品月別実績 THIBETU
+				 INNER JOIN M_商品 MSHOHIN ON THIBETU.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 THIBETU.対象年月 = @前月
+				 AND	 SUBSTRING(THIBETU.[3桁品番],1,1) BETWEEN @フロアFROM AND @フロアTO) THIBETU 
+				 ON MFLOOR.フロアコード = THIBETU.フロアコード
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(TTANA.論理原価単価合計) 棚卸前原価
+						,SUM(TTANA.論理上代単価合計) 棚卸前上代
+						,SUM(TTANA.論理数量) 棚卸前数量
+				 FROM	 T_棚卸事前集計 TTANA
+				 INNER JOIN M_商品 MSHOHIN ON TTANA.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TTANA.棚卸年月 = @前月
+				 AND	 MSHOHIN.フロアコード BETWEEN @フロアFROM AND @フロアTO) TTANA 
+				 ON MFLOOR.フロアコード = TTANA.フロアコード 
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(TTANA.原価単価合計) 棚卸後原価
+						,SUM(TTANA.上代単価合計) 棚卸後上代
+						,SUM(TTANA.数量) 棚卸後数量
+				 FROM	 T_棚卸明細 TTANA
+				 INNER JOIN M_商品 MSHOHIN ON TTANA.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TTANA.棚卸年月 = @前月
+				 AND	 MSHOHIN.フロアコード BETWEEN @フロアFROM AND @フロアTO) TTANAA 
+				 ON MFLOOR.フロアコード = TTANAA.フロアコード 
+		,(SELECT TOGETUDAY.対象月日数 - KYUGYODAY.休業日 営業日数
+		  FROM	 (SELECT  CAST(DAY(CAST((CAST(YEAR(@当年月日) AS VARCHAR(4))+'-'+CAST(MONTH(@当年月日) AS VARCHAR(2))+'-1') AS DATETIME)-1)AS VARCHAR) 対象月日数) TOGETUDAY
+				,(SELECT	 COUNT(年月日) 休業日	
+				 FROM	 M_カレンダ MCALENDER
+				 WHERE	 MCALENDER.営業フラグ = 0
+				 AND	 SUBSTRING(MCALENDER.年月日,1,6) = @前月) KYUGYODAY ) EIGYODAYCOUNT	 
+</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="フロアコード" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="AnsiString" Direction="Input" ParameterName="@フロアコード" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="フロア名" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="AnsiString" Direction="Input" ParameterName="@フロア名" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="前月" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@前月" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="当月" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@当月" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="フロアFROM" ColumnName="" DataSourceName="" DataTypeServer="nchar(1)" DbType="String" Direction="Input" ParameterName="@フロアFROM" Precision="0" Scale="0" Size="1" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="フロアTO" ColumnName="" DataSourceName="" DataTypeServer="nchar(1)" DbType="String" Direction="Input" ParameterName="@フロアTO" Precision="0" Scale="0" Size="1" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="当年月日" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@当年月日" Precision="0" ProviderType="" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="フロアコード" DataSetColumn="フロアコード" />
+              <Mapping SourceColumn="フロア名" DataSetColumn="フロア名" />
+              <Mapping SourceColumn="月首原価" DataSetColumn="月首原価" />
+              <Mapping SourceColumn="月首上代" DataSetColumn="月首上代" />
+              <Mapping SourceColumn="仕入原価" DataSetColumn="仕入原価" />
+              <Mapping SourceColumn="仕入上代" DataSetColumn="仕入上代" />
+              <Mapping SourceColumn="原価合計" DataSetColumn="原価合計" />
+              <Mapping SourceColumn="上代合計" DataSetColumn="上代合計" />
+              <Mapping SourceColumn="月末原価" DataSetColumn="月末原価" />
+              <Mapping SourceColumn="月末上代" DataSetColumn="月末上代" />
+              <Mapping SourceColumn="月末個数" DataSetColumn="月末個数" />
+              <Mapping SourceColumn="原価売上" DataSetColumn="原価売上" />
+              <Mapping SourceColumn="上代売上" DataSetColumn="上代売上" />
+              <Mapping SourceColumn="粗利金額" DataSetColumn="粗利金額" />
+              <Mapping SourceColumn="売価売上" DataSetColumn="売価売上" />
+              <Mapping SourceColumn="売上構成比" DataSetColumn="売上構成比" />
+              <Mapping SourceColumn="粗利構成比" DataSetColumn="粗利構成比" />
+              <Mapping SourceColumn="粗利率" DataSetColumn="粗利率" />
+              <Mapping SourceColumn="廃棄上代" DataSetColumn="廃棄上代" />
+              <Mapping SourceColumn="回転率" DataSetColumn="回転率" />
+              <Mapping SourceColumn="在庫日数" DataSetColumn="在庫日数" />
+              <Mapping SourceColumn="交差率" DataSetColumn="交差率" />
+              <Mapping SourceColumn="交差日数" DataSetColumn="交差日数" />
+              <Mapping SourceColumn="実質個数" DataSetColumn="実質個数" />
+              <Mapping SourceColumn="個数差" DataSetColumn="個数差" />
+              <Mapping SourceColumn="営業日数" DataSetColumn="営業日数" />
+              <Mapping SourceColumn="品番" DataSetColumn="品番" />
+              <Mapping SourceColumn="商品グループ名カナ" DataSetColumn="商品グループ名カナ" />
+              <Mapping SourceColumn="実質原価" DataSetColumn="実質原価" />
+              <Mapping SourceColumn="原価差額" DataSetColumn="原価差額" />
+              <Mapping SourceColumn="実質上代" DataSetColumn="実質上代" />
+              <Mapping SourceColumn="上代差額" DataSetColumn="上代差額" />
+              <Mapping SourceColumn="個数差1" DataSetColumn="個数差1" />
+              <Mapping SourceColumn="月末原価_棚卸" DataSetColumn="月末原価_棚卸" />
+              <Mapping SourceColumn="月末上代_棚卸" DataSetColumn="月末上代_棚卸" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="品番別効率表99以外TableAdapter" GeneratorDataComponentClassName="品番別効率表99以外TableAdapter" Name="品番別効率表99以外" UserDataComponentName="品番別効率表99以外TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectType="Unknown" GenerateMethods="Get" GenerateShortCommands="false" GeneratorGetMethodName="SelectKourituList" GetMethodModifier="Public" GetMethodName="SelectKourituList" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="SelectKourituList" UserSourceName="SelectKourituList">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT	 MSHOHIN.フロアコード
+		,'全社　総合計 (品番:99以外)' フロア名
+		,MSHOHIN.フロアコード 品番
+		,'全社　総合計 (品番:99以外)'  商品グループ名カナ 
+		,ISNULL(TGESHO.月首原価,0) 月首原価
+		,ISNULL(TGESHO.月首上代,0) 月首上代
+		,ISNULL(SHIIRE.仕入原価,0) 仕入原価
+		,ISNULL(SHIIRE.仕入上代,0) 仕入上代
+		,ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0) 原価合計
+		,ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0) 上代合計
+		,ISNULL(TGESHO.月末原価,0) 月末原価
+		,ISNULL(TGESHO.月末上代,0) 月末上代
+		,(ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - ISNULL(SHIIRE.廃棄原価,0) - ISNULL(THIBETU.原価売上,0) 月末原価_棚卸
+		,(ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0)) - ISNULL(SHIIRE.廃棄上代,0) - ISNULL(THIBETU.上代売上,0) 月末上代_棚卸
+		,ISNULL(TTANA.棚卸前数量,0) 月末個数
+		,ISNULL(THIBETU.原価売上,0) 原価売上
+		,ISNULL(THIBETU.上代売上,0)	上代売上
+		,ISNULL(THIBETU.粗利金額,0)	粗利金額
+		,ISNULL(THIBETU.売価売上,0)	売価売上
+		,CASE WHEN ISNULL(THIBETU.当月売上,0) = 0 THEN NULL ELSE ISNULL(THIBETU.売価売上,0) / ISNULL(THIBETU.当月売上,0) END 売上構成比
+		,CASE WHEN ISNULL(THIBETU.当月粗利,0) = 0 THEN NULL ELSE ISNULL(THIBETU.粗利金額,0) / ISNULL(THIBETU.当月粗利,0) END 粗利構成比
+		,CASE WHEN ISNULL(THIBETU.売価売上,0) = 0 THEN NULL ELSE ISNULL(THIBETU.粗利金額,0) / ISNULL(THIBETU.売価売上,0) END 粗利率
+		,ISNULL(SHIIRE.廃棄上代,0) 廃棄上代
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 THEN NULL
+			ELSE ISNULL(THIBETU.売価売上,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2) END 回転率
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 OR ISNULL(THIBETU.売価売上,0) = 0 THEN NULL
+			ELSE EIGYODAYCOUNT.営業日数 / (ISNULL(THIBETU.売価売上,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2)) END 在庫日数
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 THEN NULL
+			ELSE ISNULL(THIBETU.粗利金額,0) / (ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) * 2 END 交差率
+		,CASE WHEN ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0))) = 0 OR ISNULL(THIBETU.粗利金額,0) = 0 THEN NULL
+			ELSE EIGYODAYCOUNT.営業日数 / (ISNULL(THIBETU.粗利金額,0) / ((ISNULL(TGESHO.月首原価,0) + ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - (ISNULL(THIBETU.売価売上,0) - ISNULL(THIBETU.粗利金額,0)))) / 2)) END 交差日数
+
+		,ISNULL(TTANAA.棚卸後原価,0) 実質原価
+		,ISNULL(TTANAA.棚卸後原価,0) - ((ISNULL(TGESHO.月首原価,0) + ISNULL(SHIIRE.仕入原価,0)) - ISNULL(SHIIRE.廃棄原価,0) - ISNULL(THIBETU.原価売上,0)) 原価差額
+		,ISNULL(TTANAA.棚卸後上代,0) 実質上代
+		,ISNULL(TTANAA.棚卸後上代,0) - ((ISNULL(TGESHO.月首上代,0) + ISNULL(SHIIRE.仕入上代,0)) - ISNULL(SHIIRE.廃棄上代,0) - ISNULL(THIBETU.上代売上,0)) 上代差額
+		,ISNULL(TTANAA.棚卸後数量,0) 実質個数
+		,ISNULL(TTANAA.棚卸後数量,0) - ISNULL(TTANA.棚卸前数量,0) 個数差
+		,EIGYODAYCOUNT.営業日数
+FROM	(SELECT	 '***' フロアコード) MSHOHIN
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(CASE WHEN TGESHO.在庫年月 = @前月 THEN TGESHO.原価単価合計 ELSE 0 END) 月首原価
+						,SUM(CASE WHEN TGESHO.在庫年月 = @前月 THEN TGESHO.上代単価合計 ELSE 0 END) 月首上代 
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.原価単価合計 ELSE 0 END) 月末原価
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.上代単価合計 ELSE 0 END) 月末上代 
+						,SUM(CASE WHEN TGESHO.在庫年月 = @当月 THEN TGESHO.数量 ELSE 0 END) 月末個数 
+				 FROM	 T_月初在庫 TGESHO 
+				 WHERE	 TGESHO.在庫年月 IN ( @前月 , @当月 )
+				 AND	 SUBSTRING(TGESHO.[3桁品番],1,2) &lt;&gt; '99') TGESHO
+				 ON MSHOHIN.フロアコード = TGESHO.フロアコード
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(CASE WHEN TSHIIRE.仕入区分 &lt;&gt; '9' THEN TSHIIREM.数量 * TSHIIREM.原価単価 ELSE 0 END) 仕入原価
+						,SUM(CASE WHEN TSHIIRE.仕入区分 &lt;&gt; '9' THEN TSHIIREM.数量 * TSHIIREM.上代単価 ELSE 0 END) 仕入上代
+						,SUM(CASE WHEN TSHIIRE.仕入区分 = '9' THEN TSHIIREM.数量 * TSHIIREM.原価単価 * -1 ELSE 0 END) 廃棄原価	
+						,SUM(CASE WHEN TSHIIRE.仕入区分 = '9' THEN TSHIIREM.数量 * TSHIIREM.上代単価 * -1 ELSE 0 END) 廃棄上代
+				 FROM	 T_仕入 TSHIIRE
+				 INNER JOIN T_仕入明細 TSHIIREM ON TSHIIRE.仕入伝票番号 = TSHIIREM.仕入伝票番号
+											   AND TSHIIRE.赤黒枝番 = TSHIIREM.赤黒枝番
+				 INNER JOIN M_商品 MSHOHIN ON TSHIIREM.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TSHIIRE.集計年月 = @前月
+				 AND	 SUBSTRING(MSHOHIN.[3桁品番],1,2) &lt;&gt; '99') SHIIRE
+				 ON MSHOHIN.フロアコード = SHIIRE.フロアコード
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(THIBETU.下代金額計) 売価売上
+						,SUM(THIBETU.下代金額計) - SUM(THIBETU.粗利金額計) 原価売上
+						,SUM(THIBETU.上代金額計) 上代売上
+						,SUM(THIBETU.粗利金額計) 粗利金額
+						,(SELECT SUM(下代金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月売上
+						,(SELECT SUM(下代金額計) - SUM(粗利金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月原価
+						,(SELECT SUM(粗利金額計) FROM T_商品月別実績 WHERE 対象年月 = @前月) 当月粗利
+				 FROM	 T_商品月別実績 THIBETU
+				 INNER JOIN M_商品 MSHOHIN ON THIBETU.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 THIBETU.対象年月 = @前月
+				 AND	 SUBSTRING(MSHOHIN.[3桁品番],1,2) &lt;&gt; '99') THIBETU 
+				 ON MSHOHIN.フロアコード = THIBETU.フロアコード 
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(TTANA.論理原価単価合計) 棚卸前原価
+						,SUM(TTANA.論理上代単価合計) 棚卸前上代
+						,SUM(TTANA.論理数量) 棚卸前数量
+				 FROM	 T_棚卸事前集計 TTANA
+				 INNER JOIN M_商品 MSHOHIN ON TTANA.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TTANA.棚卸年月 = @前月
+				 AND	 SUBSTRING(MSHOHIN.[3桁品番],1,2) &lt;&gt; '99') TTANA 
+				 ON MSHOHIN.フロアコード = TTANA.フロアコード 
+LEFT OUTER JOIN (SELECT	 '***' フロアコード
+						,SUM(TTANA.原価単価合計) 棚卸後原価
+						,SUM(TTANA.上代単価合計) 棚卸後上代
+						,SUM(TTANA.数量) 棚卸後数量
+				 FROM	 T_棚卸明細 TTANA
+				 INNER JOIN M_商品 MSHOHIN ON TTANA.商品管理番号 = MSHOHIN.商品管理番号
+				 WHERE	 TTANA.棚卸年月 = @前月
+				 AND	 SUBSTRING(MSHOHIN.[3桁品番],1,2) &lt;&gt; '99') TTANAA 
+				 ON MSHOHIN.フロアコード = TTANAA.フロアコード 
+		,(SELECT TOGETUDAY.対象月日数 - KYUGYODAY.休業日 営業日数
+		  FROM	 (SELECT  CAST(DAY(CAST((CAST(YEAR(@当年月日) AS VARCHAR(4))+'-'+CAST(MONTH(@当年月日) AS VARCHAR(2))+'-1') AS DATETIME)-1)AS VARCHAR) 対象月日数) TOGETUDAY
+				,(SELECT	 COUNT(年月日) 休業日	
+				 FROM	 M_カレンダ MCALENDER
+				 WHERE	 MCALENDER.営業フラグ = 0
+				 AND	 SUBSTRING(MCALENDER.年月日,1,6) = @前月) KYUGYODAY ) EIGYODAYCOUNT	 
+ORDER BY 品番
+</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="前月" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@前月" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="当月" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@当月" Precision="0" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="当年月日" ColumnName="" DataSourceName="" DataTypeServer="unknown" DbType="String" Direction="Input" ParameterName="@当年月日" Precision="0" ProviderType="NVarChar" Scale="0" Size="1024" SourceColumn="" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="フロアコード" DataSetColumn="フロアコード" />
+              <Mapping SourceColumn="品番" DataSetColumn="品番" />
+              <Mapping SourceColumn="商品グループ名カナ" DataSetColumn="商品グループ名カナ" />
+              <Mapping SourceColumn="月首原価" DataSetColumn="月首原価" />
+              <Mapping SourceColumn="月首上代" DataSetColumn="月首上代" />
+              <Mapping SourceColumn="仕入原価" DataSetColumn="仕入原価" />
+              <Mapping SourceColumn="仕入上代" DataSetColumn="仕入上代" />
+              <Mapping SourceColumn="原価合計" DataSetColumn="原価合計" />
+              <Mapping SourceColumn="上代合計" DataSetColumn="上代合計" />
+              <Mapping SourceColumn="月末原価" DataSetColumn="月末原価" />
+              <Mapping SourceColumn="月末上代" DataSetColumn="月末上代" />
+              <Mapping SourceColumn="月末個数" DataSetColumn="月末個数" />
+              <Mapping SourceColumn="原価売上" DataSetColumn="原価売上" />
+              <Mapping SourceColumn="上代売上" DataSetColumn="上代売上" />
+              <Mapping SourceColumn="粗利金額" DataSetColumn="粗利金額" />
+              <Mapping SourceColumn="売価売上" DataSetColumn="売価売上" />
+              <Mapping SourceColumn="売上構成比" DataSetColumn="売上構成比" />
+              <Mapping SourceColumn="粗利構成比" DataSetColumn="粗利構成比" />
+              <Mapping SourceColumn="粗利率" DataSetColumn="粗利率" />
+              <Mapping SourceColumn="廃棄上代" DataSetColumn="廃棄上代" />
+              <Mapping SourceColumn="回転率" DataSetColumn="回転率" />
+              <Mapping SourceColumn="在庫日数" DataSetColumn="在庫日数" />
+              <Mapping SourceColumn="交差率" DataSetColumn="交差率" />
+              <Mapping SourceColumn="交差日数" DataSetColumn="交差日数" />
+              <Mapping SourceColumn="実質個数" DataSetColumn="実質個数" />
+              <Mapping SourceColumn="個数差" DataSetColumn="個数差" />
+              <Mapping SourceColumn="フロア名" DataSetColumn="フロア名" />
+              <Mapping SourceColumn="営業日数" DataSetColumn="営業日数" />
+              <Mapping SourceColumn="実質原価" DataSetColumn="実質原価" />
+              <Mapping SourceColumn="原価差額" DataSetColumn="原価差額" />
+              <Mapping SourceColumn="実質上代" DataSetColumn="実質上代" />
+              <Mapping SourceColumn="上代差額" DataSetColumn="上代差額" />
+              <Mapping SourceColumn="月末原価_棚卸" DataSetColumn="月末原価_棚卸" />
+              <Mapping SourceColumn="月末上代_棚卸" DataSetColumn="月末上代_棚卸" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="T_部門別効率表TableAdapter" GeneratorDataComponentClassName="T_部門別効率表TableAdapter" Name="T_部門別効率表" UserDataComponentName="T_部門別効率表TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="tnb.dbo.T_部門別効率表" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO [T_部門別効率表] ([対象年月], [品番], [品名], [フロアコード], [フロア名], [月首原価], [月首上代], [仕入原価], [仕入上代], [原価合計], [上代合計], [月末原価], [月末上代], [月末原価_棚卸], [月末上代_棚卸], [月末個数], [原価売上], [上代売上], [粗利金額], [売価売上], [売上構成比], [粗利構成比], [粗利率], [廃棄上代], [回転率], [在庫日数], [交差率], [交差日数], [実質原価], [原価差額], [実質上代], [上代差額], [実質個数], [個数差], [営業日数], [登録者番号], [登録日], [更新者番号], [更新日]) VALUES (@対象年月, @品番, @品名, @フロアコード, @フロア名, @月首原価, @月首上代, @仕入原価, @仕入上代, @原価合計, @上代合計, @月末原価, @月末上代, @月末原価_棚卸, @月末上代_棚卸, @月末個数, @原価売上, @上代売上, @粗利金額, @売価売上, @売上構成比, @粗利構成比, @粗利率, @廃棄上代, @回転率, @在庫日数, @交差率, @交差日数, @実質原価, @原価差額, @実質上代, @上代差額, @実質個数, @個数差, @営業日数, @登録者番号, @登録日, @更新者番号, @更新日)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@対象年月" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="対象年月" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@品番" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="品番" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@品名" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="品名" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="StringFixedLength" Direction="Input" ParameterName="@フロアコード" Precision="0" ProviderType="NChar" Scale="0" Size="0" SourceColumn="フロアコード" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@フロア名" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="フロア名" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@月首原価" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="月首原価" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@月首上代" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="月首上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@仕入原価" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="仕入原価" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@仕入上代" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="仕入上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@原価合計" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="原価合計" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@上代合計" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="上代合計" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@月末原価" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="月末原価" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@月末上代" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="月末上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@月末原価_棚卸" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="月末原価_棚卸" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@月末上代_棚卸" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="月末上代_棚卸" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@月末個数" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="月末個数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@原価売上" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="原価売上" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@上代売上" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="上代売上" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@粗利金額" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="粗利金額" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@売価売上" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="売価売上" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@売上構成比" Precision="7" ProviderType="Decimal" Scale="5" Size="0" SourceColumn="売上構成比" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@粗利構成比" Precision="7" ProviderType="Decimal" Scale="5" Size="0" SourceColumn="粗利構成比" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@粗利率" Precision="7" ProviderType="Decimal" Scale="5" Size="0" SourceColumn="粗利率" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@廃棄上代" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="廃棄上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@回転率" Precision="7" ProviderType="Decimal" Scale="5" Size="0" SourceColumn="回転率" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@在庫日数" Precision="7" ProviderType="Decimal" Scale="3" Size="0" SourceColumn="在庫日数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@交差率" Precision="7" ProviderType="Decimal" Scale="5" Size="0" SourceColumn="交差率" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@交差日数" Precision="7" ProviderType="Decimal" Scale="3" Size="0" SourceColumn="交差日数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@実質原価" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="実質原価" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@原価差額" Precision="12" ProviderType="Decimal" Scale="2" Size="0" SourceColumn="原価差額" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@実質上代" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="実質上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@上代差額" Precision="10" ProviderType="Decimal" Scale="0" Size="0" SourceColumn="上代差額" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@実質個数" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="実質個数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@個数差" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="個数差" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@営業日数" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="営業日数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@登録者番号" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="登録者番号" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@登録日" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="登録日" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@更新者番号" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="更新者番号" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="@更新日" Precision="0" ProviderType="DateTime" Scale="0" Size="0" SourceColumn="更新日" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT          T_部門別効率表.*
+FROM            T_部門別効率表</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="対象年月" DataSetColumn="対象年月" />
+              <Mapping SourceColumn="品番" DataSetColumn="品番" />
+              <Mapping SourceColumn="品名" DataSetColumn="品名" />
+              <Mapping SourceColumn="フロアコード" DataSetColumn="フロアコード" />
+              <Mapping SourceColumn="フロア名" DataSetColumn="フロア名" />
+              <Mapping SourceColumn="月首原価" DataSetColumn="月首原価" />
+              <Mapping SourceColumn="月首上代" DataSetColumn="月首上代" />
+              <Mapping SourceColumn="仕入原価" DataSetColumn="仕入原価" />
+              <Mapping SourceColumn="仕入上代" DataSetColumn="仕入上代" />
+              <Mapping SourceColumn="原価合計" DataSetColumn="原価合計" />
+              <Mapping SourceColumn="上代合計" DataSetColumn="上代合計" />
+              <Mapping SourceColumn="月末原価" DataSetColumn="月末原価" />
+              <Mapping SourceColumn="月末上代" DataSetColumn="月末上代" />
+              <Mapping SourceColumn="月末原価_棚卸" DataSetColumn="月末原価_棚卸" />
+              <Mapping SourceColumn="月末上代_棚卸" DataSetColumn="月末上代_棚卸" />
+              <Mapping SourceColumn="月末個数" DataSetColumn="月末個数" />
+              <Mapping SourceColumn="原価売上" DataSetColumn="原価売上" />
+              <Mapping SourceColumn="上代売上" DataSetColumn="上代売上" />
+              <Mapping SourceColumn="粗利金額" DataSetColumn="粗利金額" />
+              <Mapping SourceColumn="売価売上" DataSetColumn="売価売上" />
+              <Mapping SourceColumn="売上構成比" DataSetColumn="売上構成比" />
+              <Mapping SourceColumn="粗利構成比" DataSetColumn="粗利構成比" />
+              <Mapping SourceColumn="粗利率" DataSetColumn="粗利率" />
+              <Mapping SourceColumn="廃棄上代" DataSetColumn="廃棄上代" />
+              <Mapping SourceColumn="回転率" DataSetColumn="回転率" />
+              <Mapping SourceColumn="在庫日数" DataSetColumn="在庫日数" />
+              <Mapping SourceColumn="交差率" DataSetColumn="交差率" />
+              <Mapping SourceColumn="交差日数" DataSetColumn="交差日数" />
+              <Mapping SourceColumn="実質原価" DataSetColumn="実質原価" />
+              <Mapping SourceColumn="原価差額" DataSetColumn="原価差額" />
+              <Mapping SourceColumn="実質上代" DataSetColumn="実質上代" />
+              <Mapping SourceColumn="上代差額" DataSetColumn="上代差額" />
+              <Mapping SourceColumn="実質個数" DataSetColumn="実質個数" />
+              <Mapping SourceColumn="個数差" DataSetColumn="個数差" />
+              <Mapping SourceColumn="営業日数" DataSetColumn="営業日数" />
+              <Mapping SourceColumn="登録者番号" DataSetColumn="登録者番号" />
+              <Mapping SourceColumn="登録日" DataSetColumn="登録日" />
+              <Mapping SourceColumn="更新者番号" DataSetColumn="更新者番号" />
+              <Mapping SourceColumn="更新日" DataSetColumn="更新日" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="DeleteKoritsuhyo" Modifier="Public" Name="DeleteKoritsuhyo" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="DeleteKoritsuhyo">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>DELETE FROM T_部門別効率表
+WHERE             (対象年月 = @対象年月)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="対象年月" ColumnName="対象年月" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nchar(6)" DbType="String" Direction="Input" ParameterName="@対象年月" Precision="0" ProviderType="NChar" Scale="0" Size="6" SourceColumn="対象年月" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+              </DbSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertKoritsuhyo" Modifier="Public" Name="InsertKoritsuhyo" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="InsertKoritsuhyo">
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>INSERT INTO  T_部門別効率表
+                        (対象年月, 品番, 品名, フロアコード, フロア名, 月首原価, 月首上代, 仕入原価, 仕入上代, 原価合計, 上代合計, 月末原価, 月末上代, 月末原価_棚卸, 月末上代_棚卸, 月末個数, 原価売上, 上代売上, 粗利金額, 売価売上, 
+                        売上構成比, 粗利構成比, 粗利率, 廃棄上代, 回転率, 在庫日数, 交差率, 交差日数, 実質原価, 原価差額, 実質上代, 上代差額, 実質個数, 個数差, 営業日数, 登録者番号, 登録日, 更新者番号, 更新日)
+VALUES          (@対象年月,@品番,@品名,@フロアコード,@フロア名,@月首原価,@月首上代,@仕入原価,@仕入上代,@原価合計,@上代合計,@月末原価,@月末上代,@月末原価_棚卸,@月末上代_棚卸,@月末個数,@原価売上,@上代売上,@粗利金額,@売価売上,@売上構成比,@粗利構成比,@粗利率,@廃棄上代,@回転率,@在庫日数,@交差率,@交差日数,@実質原価,@原価差額,@実質上代,@上代差額,@実質個数,@個数差,@営業日数,
+                         N'N170', GETDATE(), N'N170', GETDATE())</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="対象年月" ColumnName="対象年月" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nchar(6)" DbType="String" Direction="Input" ParameterName="@対象年月" Precision="0" ProviderType="NChar" Scale="0" Size="6" SourceColumn="対象年月" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="品番" ColumnName="品番" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nchar(3)" DbType="String" Direction="Input" ParameterName="@品番" Precision="0" ProviderType="NChar" Scale="0" Size="3" SourceColumn="品番" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="品名" ColumnName="品名" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nvarchar(50)" DbType="String" Direction="Input" ParameterName="@品名" Precision="0" ProviderType="NVarChar" Scale="0" Size="50" SourceColumn="品名" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="フロアコード" ColumnName="フロアコード" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nchar(1)" DbType="String" Direction="Input" ParameterName="@フロアコード" Precision="0" ProviderType="NChar" Scale="0" Size="1" SourceColumn="フロアコード" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="フロア名" ColumnName="フロア名" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nvarchar(10)" DbType="String" Direction="Input" ParameterName="@フロア名" Precision="0" ProviderType="NVarChar" Scale="0" Size="10" SourceColumn="フロア名" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="月首原価" ColumnName="月首原価" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@月首原価" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="月首原価" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="月首上代" ColumnName="月首上代" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@月首上代" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="月首上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="仕入原価" ColumnName="仕入原価" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@仕入原価" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="仕入原価" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="仕入上代" ColumnName="仕入上代" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@仕入上代" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="仕入上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="原価合計" ColumnName="原価合計" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@原価合計" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="原価合計" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="上代合計" ColumnName="上代合計" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@上代合計" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="上代合計" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="月末原価" ColumnName="月末原価" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@月末原価" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="月末原価" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="月末上代" ColumnName="月末上代" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@月末上代" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="月末上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="月末原価_棚卸" ColumnName="月末原価_棚卸" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@月末原価_棚卸" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="月末原価_棚卸" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="月末上代_棚卸" ColumnName="月末上代_棚卸" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@月末上代_棚卸" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="月末上代_棚卸" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="月末個数" ColumnName="月末個数" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@月末個数" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="月末個数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="原価売上" ColumnName="原価売上" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@原価売上" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="原価売上" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="上代売上" ColumnName="上代売上" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@上代売上" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="上代売上" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="粗利金額" ColumnName="粗利金額" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@粗利金額" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="粗利金額" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="売価売上" ColumnName="売価売上" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@売価売上" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="売価売上" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="売上構成比" ColumnName="売上構成比" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(7, 5)" DbType="Decimal" Direction="Input" ParameterName="@売上構成比" Precision="7" ProviderType="Decimal" Scale="5" Size="5" SourceColumn="売上構成比" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="粗利構成比" ColumnName="粗利構成比" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(7, 5)" DbType="Decimal" Direction="Input" ParameterName="@粗利構成比" Precision="7" ProviderType="Decimal" Scale="5" Size="5" SourceColumn="粗利構成比" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="粗利率" ColumnName="粗利率" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(7, 5)" DbType="Decimal" Direction="Input" ParameterName="@粗利率" Precision="7" ProviderType="Decimal" Scale="5" Size="5" SourceColumn="粗利率" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="廃棄上代" ColumnName="廃棄上代" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@廃棄上代" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="廃棄上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="回転率" ColumnName="回転率" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(7, 5)" DbType="Decimal" Direction="Input" ParameterName="@回転率" Precision="7" ProviderType="Decimal" Scale="5" Size="5" SourceColumn="回転率" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="在庫日数" ColumnName="在庫日数" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(7, 3)" DbType="Decimal" Direction="Input" ParameterName="@在庫日数" Precision="7" ProviderType="Decimal" Scale="3" Size="5" SourceColumn="在庫日数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="交差率" ColumnName="交差率" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(7, 5)" DbType="Decimal" Direction="Input" ParameterName="@交差率" Precision="7" ProviderType="Decimal" Scale="5" Size="5" SourceColumn="交差率" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="交差日数" ColumnName="交差日数" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(7, 3)" DbType="Decimal" Direction="Input" ParameterName="@交差日数" Precision="7" ProviderType="Decimal" Scale="3" Size="5" SourceColumn="交差日数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="実質原価" ColumnName="実質原価" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@実質原価" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="実質原価" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="原価差額" ColumnName="原価差額" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(12, 2)" DbType="Decimal" Direction="Input" ParameterName="@原価差額" Precision="12" ProviderType="Decimal" Scale="2" Size="9" SourceColumn="原価差額" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="実質上代" ColumnName="実質上代" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@実質上代" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="実質上代" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="上代差額" ColumnName="上代差額" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="decimal(10, 0)" DbType="Decimal" Direction="Input" ParameterName="@上代差額" Precision="10" ProviderType="Decimal" Scale="0" Size="9" SourceColumn="上代差額" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="実質個数" ColumnName="実質個数" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@実質個数" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="実質個数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="個数差" ColumnName="個数差" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@個数差" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="個数差" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="営業日数" ColumnName="営業日数" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@営業日数" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="営業日数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+              </DbSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertKoritsuhyoZero" Modifier="Public" Name="InsertKoritsuhyoZero" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="InsertKoritsuhyoZero">
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>INSERT INTO  T_部門別効率表
+                        (対象年月, 品番, 品名, フロアコード, フロア名, 月首原価, 月首上代, 仕入原価, 仕入上代, 原価合計, 上代合計, 月末原価, 月末上代, 月末原価_棚卸, 月末上代_棚卸, 月末個数, 原価売上, 上代売上, 粗利金額, 売価売上, 
+                        売上構成比, 粗利構成比, 粗利率, 廃棄上代, 回転率, 在庫日数, 交差率, 交差日数, 実質原価, 原価差額, 実質上代, 上代差額, 実質個数, 個数差, 営業日数, 登録者番号, 登録日, 更新者番号, 更新日)
+VALUES          (@対象年月,@品番,@品名,@フロアコード,@フロア名, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,@営業日数, N'N170', GETDATE(), N'N170', GETDATE()); </CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="対象年月" ColumnName="対象年月" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nchar(6)" DbType="String" Direction="Input" ParameterName="@対象年月" Precision="0" ProviderType="NChar" Scale="0" Size="6" SourceColumn="対象年月" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="品番" ColumnName="品番" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nchar(3)" DbType="String" Direction="Input" ParameterName="@品番" Precision="0" ProviderType="NChar" Scale="0" Size="3" SourceColumn="品番" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="品名" ColumnName="品名" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nvarchar(50)" DbType="String" Direction="Input" ParameterName="@品名" Precision="0" ProviderType="NVarChar" Scale="0" Size="50" SourceColumn="品名" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="フロアコード" ColumnName="フロアコード" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nchar(1)" DbType="String" Direction="Input" ParameterName="@フロアコード" Precision="0" ProviderType="NChar" Scale="0" Size="1" SourceColumn="フロアコード" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="フロア名" ColumnName="フロア名" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="nvarchar(10)" DbType="String" Direction="Input" ParameterName="@フロア名" Precision="0" ProviderType="NVarChar" Scale="0" Size="10" SourceColumn="フロア名" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="営業日数" ColumnName="営業日数" DataSourceName="tnb.dbo.T_部門別効率表" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@営業日数" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="営業日数" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="N170" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="N170" msprop:Generator_DataSetName="N170">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="品番別効率表" msprop:Generator_RowEvHandlerName="品番別効率表RowChangeEventHandler" msprop:Generator_RowDeletedName="品番別効率表RowDeleted" msprop:Generator_RowDeletingName="品番別効率表RowDeleting" msprop:Generator_RowEvArgName="品番別効率表RowChangeEvent" msprop:Generator_TablePropName="品番別効率表" msprop:Generator_RowChangedName="品番別効率表RowChanged" msprop:Generator_RowChangingName="品番別効率表RowChanging" msprop:Generator_UserTableName="品番別効率表" msprop:Generator_TableClassName="品番別効率表DataTable" msprop:Generator_RowClassName="品番別効率表Row" msprop:Generator_TableVarName="table品番別効率表">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="フロアコード" msprop:Generator_ColumnPropNameInTable="フロアコードColumn" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="フロアコード" msprop:Generator_UserColumnName="フロアコード" msprop:Generator_ColumnVarNameInTable="columnフロアコード" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="フロア名" msprop:Generator_ColumnPropNameInTable="フロア名Column" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="フロア名" msprop:Generator_UserColumnName="フロア名" msprop:Generator_ColumnVarNameInTable="columnフロア名" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="品番" msprop:Generator_ColumnPropNameInTable="品番Column" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="品番" msprop:Generator_UserColumnName="品番" msprop:Generator_ColumnVarNameInTable="column品番" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="商品グループ名カナ" msprop:Generator_ColumnPropNameInTable="商品グループ名カナColumn" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="商品グループ名カナ" msprop:Generator_UserColumnName="商品グループ名カナ" msprop:Generator_ColumnVarNameInTable="column商品グループ名カナ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="月首原価" msprop:Generator_ColumnPropNameInRow="月首原価" msprop:Generator_ColumnPropNameInTable="月首原価Column" msprop:Generator_ColumnVarNameInTable="column月首原価" msprop:Generator_UserColumnName="月首原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月首上代" msprop:Generator_ColumnPropNameInRow="月首上代" msprop:Generator_ColumnPropNameInTable="月首上代Column" msprop:Generator_ColumnVarNameInTable="column月首上代" msprop:Generator_UserColumnName="月首上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入原価" msprop:Generator_ColumnPropNameInRow="仕入原価" msprop:Generator_ColumnPropNameInTable="仕入原価Column" msprop:Generator_ColumnVarNameInTable="column仕入原価" msprop:Generator_UserColumnName="仕入原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入上代" msprop:Generator_ColumnPropNameInRow="仕入上代" msprop:Generator_ColumnPropNameInTable="仕入上代Column" msprop:Generator_ColumnVarNameInTable="column仕入上代" msprop:Generator_UserColumnName="仕入上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="原価合計" msprop:Generator_ColumnPropNameInRow="原価合計" msprop:Generator_ColumnPropNameInTable="原価合計Column" msprop:Generator_ColumnVarNameInTable="column原価合計" msprop:Generator_UserColumnName="原価合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代合計" msprop:Generator_ColumnPropNameInRow="上代合計" msprop:Generator_ColumnPropNameInTable="上代合計Column" msprop:Generator_ColumnVarNameInTable="column上代合計" msprop:Generator_UserColumnName="上代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末原価" msprop:Generator_ColumnPropNameInRow="月末原価" msprop:Generator_ColumnPropNameInTable="月末原価Column" msprop:Generator_ColumnVarNameInTable="column月末原価" msprop:Generator_UserColumnName="月末原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末上代" msprop:Generator_ColumnPropNameInRow="月末上代" msprop:Generator_ColumnPropNameInTable="月末上代Column" msprop:Generator_ColumnVarNameInTable="column月末上代" msprop:Generator_UserColumnName="月末上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末個数" msprop:Generator_ColumnPropNameInRow="月末個数" msprop:Generator_ColumnPropNameInTable="月末個数Column" msprop:Generator_ColumnVarNameInTable="column月末個数" msprop:Generator_UserColumnName="月末個数" type="xs:int" minOccurs="0" />
+              <xs:element name="原価売上" msprop:Generator_ColumnPropNameInRow="原価売上" msprop:Generator_ColumnPropNameInTable="原価売上Column" msprop:Generator_ColumnVarNameInTable="column原価売上" msprop:Generator_UserColumnName="原価売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代売上" msprop:Generator_ColumnPropNameInRow="上代売上" msprop:Generator_ColumnPropNameInTable="上代売上Column" msprop:Generator_ColumnVarNameInTable="column上代売上" msprop:Generator_UserColumnName="上代売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利金額" msprop:Generator_ColumnPropNameInRow="粗利金額" msprop:Generator_ColumnPropNameInTable="粗利金額Column" msprop:Generator_ColumnVarNameInTable="column粗利金額" msprop:Generator_UserColumnName="粗利金額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売価売上" msprop:Generator_ColumnPropNameInRow="売価売上" msprop:Generator_ColumnPropNameInTable="売価売上Column" msprop:Generator_ColumnVarNameInTable="column売価売上" msprop:Generator_UserColumnName="売価売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売上構成比" msprop:Generator_ColumnPropNameInRow="売上構成比" msprop:Generator_ColumnPropNameInTable="売上構成比Column" msprop:Generator_ColumnVarNameInTable="column売上構成比" msprop:Generator_UserColumnName="売上構成比" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利構成比" msprop:Generator_ColumnPropNameInRow="粗利構成比" msprop:Generator_ColumnPropNameInTable="粗利構成比Column" msprop:Generator_ColumnVarNameInTable="column粗利構成比" msprop:Generator_UserColumnName="粗利構成比" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利率" msprop:Generator_ColumnPropNameInRow="粗利率" msprop:Generator_ColumnPropNameInTable="粗利率Column" msprop:Generator_ColumnVarNameInTable="column粗利率" msprop:Generator_UserColumnName="粗利率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="廃棄上代" msprop:Generator_ColumnPropNameInRow="廃棄上代" msprop:Generator_ColumnPropNameInTable="廃棄上代Column" msprop:Generator_ColumnVarNameInTable="column廃棄上代" msprop:Generator_UserColumnName="廃棄上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="回転率" msprop:Generator_ColumnPropNameInRow="回転率" msprop:Generator_ColumnPropNameInTable="回転率Column" msprop:Generator_ColumnVarNameInTable="column回転率" msprop:Generator_UserColumnName="回転率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="在庫日数" msprop:Generator_ColumnPropNameInRow="在庫日数" msprop:Generator_ColumnPropNameInTable="在庫日数Column" msprop:Generator_ColumnVarNameInTable="column在庫日数" msprop:Generator_UserColumnName="在庫日数" type="xs:decimal" minOccurs="0" />
+              <xs:element name="交差率" msprop:Generator_ColumnPropNameInRow="交差率" msprop:Generator_ColumnPropNameInTable="交差率Column" msprop:Generator_ColumnVarNameInTable="column交差率" msprop:Generator_UserColumnName="交差率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="交差日数" msprop:Generator_ColumnPropNameInRow="交差日数" msprop:Generator_ColumnPropNameInTable="交差日数Column" msprop:Generator_ColumnVarNameInTable="column交差日数" msprop:Generator_UserColumnName="交差日数" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質個数" msprop:Generator_ColumnPropNameInRow="実質個数" msprop:Generator_ColumnPropNameInTable="実質個数Column" msprop:Generator_ColumnVarNameInTable="column実質個数" msprop:Generator_UserColumnName="実質個数" type="xs:int" minOccurs="0" />
+              <xs:element name="個数差" msprop:Generator_ColumnPropNameInRow="個数差" msprop:Generator_ColumnPropNameInTable="個数差Column" msprop:Generator_ColumnVarNameInTable="column個数差" msprop:Generator_UserColumnName="個数差" type="xs:int" minOccurs="0" />
+              <xs:element name="営業日数" msprop:Generator_ColumnPropNameInRow="営業日数" msprop:Generator_ColumnPropNameInTable="営業日数Column" msprop:Generator_ColumnVarNameInTable="column営業日数" msprop:Generator_UserColumnName="営業日数" type="xs:int" minOccurs="0" />
+              <xs:element name="実質原価" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="実質原価" msprop:Generator_ColumnPropNameInTable="実質原価Column" msprop:Generator_ColumnVarNameInTable="column実質原価" msprop:Generator_UserColumnName="実質原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="原価差額" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="原価差額" msprop:Generator_ColumnPropNameInTable="原価差額Column" msprop:Generator_ColumnVarNameInTable="column原価差額" msprop:Generator_UserColumnName="原価差額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質上代" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="実質上代" msprop:Generator_ColumnPropNameInTable="実質上代Column" msprop:Generator_ColumnVarNameInTable="column実質上代" msprop:Generator_UserColumnName="実質上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代差額" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="上代差額" msprop:Generator_ColumnPropNameInTable="上代差額Column" msprop:Generator_ColumnVarNameInTable="column上代差額" msprop:Generator_UserColumnName="上代差額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末原価_棚卸" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="月末原価_棚卸" msprop:Generator_ColumnPropNameInTable="月末原価_棚卸Column" msprop:Generator_ColumnVarNameInTable="column月末原価_棚卸" msprop:Generator_UserColumnName="月末原価_棚卸" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末上代_棚卸" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="月末上代_棚卸" msprop:Generator_ColumnPropNameInTable="月末上代_棚卸Column" msprop:Generator_ColumnVarNameInTable="column月末上代_棚卸" msprop:Generator_UserColumnName="月末上代_棚卸" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="効率表集計" msprop:Generator_RowEvHandlerName="効率表集計RowChangeEventHandler" msprop:Generator_RowDeletedName="効率表集計RowDeleted" msprop:Generator_RowDeletingName="効率表集計RowDeleting" msprop:Generator_RowEvArgName="効率表集計RowChangeEvent" msprop:Generator_TablePropName="効率表集計" msprop:Generator_RowChangedName="効率表集計RowChanged" msprop:Generator_RowChangingName="効率表集計RowChanging" msprop:Generator_UserTableName="効率表集計" msprop:Generator_TableClassName="効率表集計DataTable" msprop:Generator_RowClassName="効率表集計Row" msprop:Generator_TableVarName="table効率表集計">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="フロアコード" msprop:Generator_ColumnPropNameInTable="フロアコードColumn" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="フロアコード" msprop:Generator_UserColumnName="フロアコード" msprop:Generator_ColumnVarNameInTable="columnフロアコード" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="フロア名" msprop:Generator_ColumnPropNameInTable="フロア名Column" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="フロア名" msprop:Generator_UserColumnName="フロア名" msprop:Generator_ColumnVarNameInTable="columnフロア名" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="品番" msprop:Generator_ColumnPropNameInTable="品番Column" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="品番" msprop:Generator_UserColumnName="品番" msprop:Generator_ColumnVarNameInTable="column品番" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="商品グループ名カナ" msprop:Generator_ColumnPropNameInTable="商品グループ名カナColumn" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="商品グループ名カナ" msprop:Generator_UserColumnName="商品グループ名カナ" msprop:Generator_ColumnVarNameInTable="column商品グループ名カナ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="月首原価" msprop:Generator_ColumnPropNameInRow="月首原価" msprop:Generator_ColumnPropNameInTable="月首原価Column" msprop:Generator_ColumnVarNameInTable="column月首原価" msprop:Generator_UserColumnName="月首原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月首上代" msprop:Generator_ColumnPropNameInRow="月首上代" msprop:Generator_ColumnPropNameInTable="月首上代Column" msprop:Generator_ColumnVarNameInTable="column月首上代" msprop:Generator_UserColumnName="月首上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入原価" msprop:Generator_ColumnPropNameInRow="仕入原価" msprop:Generator_ColumnPropNameInTable="仕入原価Column" msprop:Generator_ColumnVarNameInTable="column仕入原価" msprop:Generator_UserColumnName="仕入原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入上代" msprop:Generator_ColumnPropNameInRow="仕入上代" msprop:Generator_ColumnPropNameInTable="仕入上代Column" msprop:Generator_ColumnVarNameInTable="column仕入上代" msprop:Generator_UserColumnName="仕入上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="原価合計" msprop:Generator_ColumnPropNameInRow="原価合計" msprop:Generator_ColumnPropNameInTable="原価合計Column" msprop:Generator_ColumnVarNameInTable="column原価合計" msprop:Generator_UserColumnName="原価合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代合計" msprop:Generator_ColumnPropNameInRow="上代合計" msprop:Generator_ColumnPropNameInTable="上代合計Column" msprop:Generator_ColumnVarNameInTable="column上代合計" msprop:Generator_UserColumnName="上代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末原価" msprop:Generator_ColumnPropNameInRow="月末原価" msprop:Generator_ColumnPropNameInTable="月末原価Column" msprop:Generator_ColumnVarNameInTable="column月末原価" msprop:Generator_UserColumnName="月末原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末上代" msprop:Generator_ColumnPropNameInRow="月末上代" msprop:Generator_ColumnPropNameInTable="月末上代Column" msprop:Generator_ColumnVarNameInTable="column月末上代" msprop:Generator_UserColumnName="月末上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末個数" msprop:Generator_ColumnPropNameInRow="月末個数" msprop:Generator_ColumnPropNameInTable="月末個数Column" msprop:Generator_ColumnVarNameInTable="column月末個数" msprop:Generator_UserColumnName="月末個数" type="xs:int" minOccurs="0" />
+              <xs:element name="原価売上" msprop:Generator_ColumnPropNameInRow="原価売上" msprop:Generator_ColumnPropNameInTable="原価売上Column" msprop:Generator_ColumnVarNameInTable="column原価売上" msprop:Generator_UserColumnName="原価売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代売上" msprop:Generator_ColumnPropNameInRow="上代売上" msprop:Generator_ColumnPropNameInTable="上代売上Column" msprop:Generator_ColumnVarNameInTable="column上代売上" msprop:Generator_UserColumnName="上代売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利金額" msprop:Generator_ColumnPropNameInRow="粗利金額" msprop:Generator_ColumnPropNameInTable="粗利金額Column" msprop:Generator_ColumnVarNameInTable="column粗利金額" msprop:Generator_UserColumnName="粗利金額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売価売上" msprop:Generator_ColumnPropNameInRow="売価売上" msprop:Generator_ColumnPropNameInTable="売価売上Column" msprop:Generator_ColumnVarNameInTable="column売価売上" msprop:Generator_UserColumnName="売価売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売上構成比" msprop:Generator_ColumnPropNameInRow="売上構成比" msprop:Generator_ColumnPropNameInTable="売上構成比Column" msprop:Generator_ColumnVarNameInTable="column売上構成比" msprop:Generator_UserColumnName="売上構成比" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利構成比" msprop:Generator_ColumnPropNameInRow="粗利構成比" msprop:Generator_ColumnPropNameInTable="粗利構成比Column" msprop:Generator_ColumnVarNameInTable="column粗利構成比" msprop:Generator_UserColumnName="粗利構成比" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利率" msprop:Generator_ColumnPropNameInRow="粗利率" msprop:Generator_ColumnPropNameInTable="粗利率Column" msprop:Generator_ColumnVarNameInTable="column粗利率" msprop:Generator_UserColumnName="粗利率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="廃棄上代" msprop:Generator_ColumnPropNameInRow="廃棄上代" msprop:Generator_ColumnPropNameInTable="廃棄上代Column" msprop:Generator_ColumnVarNameInTable="column廃棄上代" msprop:Generator_UserColumnName="廃棄上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="回転率" msprop:Generator_ColumnPropNameInRow="回転率" msprop:Generator_ColumnPropNameInTable="回転率Column" msprop:Generator_ColumnVarNameInTable="column回転率" msprop:Generator_UserColumnName="回転率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="在庫日数" msprop:Generator_ColumnPropNameInRow="在庫日数" msprop:Generator_ColumnPropNameInTable="在庫日数Column" msprop:Generator_ColumnVarNameInTable="column在庫日数" msprop:Generator_UserColumnName="在庫日数" type="xs:decimal" minOccurs="0" />
+              <xs:element name="交差率" msprop:Generator_ColumnPropNameInRow="交差率" msprop:Generator_ColumnPropNameInTable="交差率Column" msprop:Generator_ColumnVarNameInTable="column交差率" msprop:Generator_UserColumnName="交差率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="交差日数" msprop:Generator_ColumnPropNameInRow="交差日数" msprop:Generator_ColumnPropNameInTable="交差日数Column" msprop:Generator_ColumnVarNameInTable="column交差日数" msprop:Generator_UserColumnName="交差日数" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質個数" msprop:Generator_ColumnPropNameInRow="実質個数" msprop:Generator_ColumnPropNameInTable="実質個数Column" msprop:Generator_ColumnVarNameInTable="column実質個数" msprop:Generator_UserColumnName="実質個数" type="xs:int" minOccurs="0" />
+              <xs:element name="個数差" msprop:Generator_ColumnPropNameInRow="個数差" msprop:Generator_ColumnPropNameInTable="個数差Column" msprop:Generator_ColumnVarNameInTable="column個数差" msprop:Generator_UserColumnName="個数差" type="xs:int" minOccurs="0" />
+              <xs:element name="営業日数" msprop:Generator_ColumnPropNameInRow="営業日数" msprop:Generator_ColumnPropNameInTable="営業日数Column" msprop:Generator_ColumnVarNameInTable="column営業日数" msprop:Generator_UserColumnName="営業日数" type="xs:int" minOccurs="0" />
+              <xs:element name="実質原価" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="実質原価" msprop:Generator_ColumnPropNameInTable="実質原価Column" msprop:Generator_ColumnVarNameInTable="column実質原価" msprop:Generator_UserColumnName="実質原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="原価差額" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="原価差額" msprop:Generator_ColumnPropNameInTable="原価差額Column" msprop:Generator_ColumnVarNameInTable="column原価差額" msprop:Generator_UserColumnName="原価差額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質上代" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="実質上代" msprop:Generator_ColumnPropNameInTable="実質上代Column" msprop:Generator_ColumnVarNameInTable="column実質上代" msprop:Generator_UserColumnName="実質上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代差額" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="上代差額" msprop:Generator_ColumnPropNameInTable="上代差額Column" msprop:Generator_ColumnVarNameInTable="column上代差額" msprop:Generator_UserColumnName="上代差額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="個数差1" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="個数差1" msprop:Generator_ColumnPropNameInTable="個数差1Column" msprop:Generator_ColumnVarNameInTable="column個数差1" msprop:Generator_UserColumnName="個数差1" type="xs:int" minOccurs="0" />
+              <xs:element name="月末原価_棚卸" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="月末原価_棚卸" msprop:Generator_ColumnPropNameInTable="月末原価_棚卸Column" msprop:Generator_ColumnVarNameInTable="column月末原価_棚卸" msprop:Generator_UserColumnName="月末原価_棚卸" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末上代_棚卸" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="月末上代_棚卸" msprop:Generator_ColumnPropNameInTable="月末上代_棚卸Column" msprop:Generator_ColumnVarNameInTable="column月末上代_棚卸" msprop:Generator_UserColumnName="月末上代_棚卸" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="品番別効率表99以外" msprop:Generator_RowEvHandlerName="品番別効率表99以外RowChangeEventHandler" msprop:Generator_RowDeletedName="品番別効率表99以外RowDeleted" msprop:Generator_RowDeletingName="品番別効率表99以外RowDeleting" msprop:Generator_RowEvArgName="品番別効率表99以外RowChangeEvent" msprop:Generator_TablePropName="品番別効率表99以外" msprop:Generator_RowChangedName="品番別効率表99以外RowChanged" msprop:Generator_RowChangingName="品番別効率表99以外RowChanging" msprop:Generator_UserTableName="品番別効率表99以外" msprop:Generator_TableClassName="品番別効率表99以外DataTable" msprop:Generator_RowClassName="品番別効率表99以外Row" msprop:Generator_TableVarName="table品番別効率表99以外">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="フロアコード" msprop:Generator_ColumnPropNameInTable="フロアコードColumn" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="フロアコード" msprop:Generator_UserColumnName="フロアコード" msprop:Generator_ColumnVarNameInTable="columnフロアコード" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="フロア名" msprop:Generator_ColumnPropNameInTable="フロア名Column" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="フロア名" msprop:Generator_UserColumnName="フロア名" msprop:Generator_ColumnVarNameInTable="columnフロア名" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="品番" msprop:Generator_ColumnPropNameInTable="品番Column" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="品番" msprop:Generator_UserColumnName="品番" msprop:Generator_ColumnVarNameInTable="column品番" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="商品グループ名カナ" msprop:Generator_ColumnPropNameInTable="商品グループ名カナColumn" msprop:nullValue="_empty" msprop:Generator_ColumnPropNameInRow="商品グループ名カナ" msprop:Generator_UserColumnName="商品グループ名カナ" msprop:Generator_ColumnVarNameInTable="column商品グループ名カナ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="月首原価" msprop:Generator_ColumnPropNameInRow="月首原価" msprop:Generator_ColumnPropNameInTable="月首原価Column" msprop:Generator_ColumnVarNameInTable="column月首原価" msprop:Generator_UserColumnName="月首原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月首上代" msprop:Generator_ColumnPropNameInRow="月首上代" msprop:Generator_ColumnPropNameInTable="月首上代Column" msprop:Generator_ColumnVarNameInTable="column月首上代" msprop:Generator_UserColumnName="月首上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入原価" msprop:Generator_ColumnPropNameInRow="仕入原価" msprop:Generator_ColumnPropNameInTable="仕入原価Column" msprop:Generator_ColumnVarNameInTable="column仕入原価" msprop:Generator_UserColumnName="仕入原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入上代" msprop:Generator_ColumnPropNameInRow="仕入上代" msprop:Generator_ColumnPropNameInTable="仕入上代Column" msprop:Generator_ColumnVarNameInTable="column仕入上代" msprop:Generator_UserColumnName="仕入上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="原価合計" msprop:Generator_ColumnPropNameInRow="原価合計" msprop:Generator_ColumnPropNameInTable="原価合計Column" msprop:Generator_ColumnVarNameInTable="column原価合計" msprop:Generator_UserColumnName="原価合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代合計" msprop:Generator_ColumnPropNameInRow="上代合計" msprop:Generator_ColumnPropNameInTable="上代合計Column" msprop:Generator_ColumnVarNameInTable="column上代合計" msprop:Generator_UserColumnName="上代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末原価" msprop:Generator_ColumnPropNameInRow="月末原価" msprop:Generator_ColumnPropNameInTable="月末原価Column" msprop:Generator_ColumnVarNameInTable="column月末原価" msprop:Generator_UserColumnName="月末原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末上代" msprop:Generator_ColumnPropNameInRow="月末上代" msprop:Generator_ColumnPropNameInTable="月末上代Column" msprop:Generator_ColumnVarNameInTable="column月末上代" msprop:Generator_UserColumnName="月末上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末個数" msprop:Generator_ColumnPropNameInRow="月末個数" msprop:Generator_ColumnPropNameInTable="月末個数Column" msprop:Generator_ColumnVarNameInTable="column月末個数" msprop:Generator_UserColumnName="月末個数" type="xs:int" minOccurs="0" />
+              <xs:element name="原価売上" msprop:Generator_ColumnPropNameInRow="原価売上" msprop:Generator_ColumnPropNameInTable="原価売上Column" msprop:Generator_ColumnVarNameInTable="column原価売上" msprop:Generator_UserColumnName="原価売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代売上" msprop:Generator_ColumnPropNameInRow="上代売上" msprop:Generator_ColumnPropNameInTable="上代売上Column" msprop:Generator_ColumnVarNameInTable="column上代売上" msprop:Generator_UserColumnName="上代売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利金額" msprop:Generator_ColumnPropNameInRow="粗利金額" msprop:Generator_ColumnPropNameInTable="粗利金額Column" msprop:Generator_ColumnVarNameInTable="column粗利金額" msprop:Generator_UserColumnName="粗利金額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売価売上" msprop:Generator_ColumnPropNameInRow="売価売上" msprop:Generator_ColumnPropNameInTable="売価売上Column" msprop:Generator_ColumnVarNameInTable="column売価売上" msprop:Generator_UserColumnName="売価売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売上構成比" msprop:Generator_ColumnPropNameInRow="売上構成比" msprop:Generator_ColumnPropNameInTable="売上構成比Column" msprop:Generator_ColumnVarNameInTable="column売上構成比" msprop:Generator_UserColumnName="売上構成比" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利構成比" msprop:Generator_ColumnPropNameInRow="粗利構成比" msprop:Generator_ColumnPropNameInTable="粗利構成比Column" msprop:Generator_ColumnVarNameInTable="column粗利構成比" msprop:Generator_UserColumnName="粗利構成比" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利率" msprop:Generator_ColumnPropNameInRow="粗利率" msprop:Generator_ColumnPropNameInTable="粗利率Column" msprop:Generator_ColumnVarNameInTable="column粗利率" msprop:Generator_UserColumnName="粗利率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="廃棄上代" msprop:Generator_ColumnPropNameInRow="廃棄上代" msprop:Generator_ColumnPropNameInTable="廃棄上代Column" msprop:Generator_ColumnVarNameInTable="column廃棄上代" msprop:Generator_UserColumnName="廃棄上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="回転率" msprop:Generator_ColumnPropNameInRow="回転率" msprop:Generator_ColumnPropNameInTable="回転率Column" msprop:Generator_ColumnVarNameInTable="column回転率" msprop:Generator_UserColumnName="回転率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="在庫日数" msprop:Generator_ColumnPropNameInRow="在庫日数" msprop:Generator_ColumnPropNameInTable="在庫日数Column" msprop:Generator_ColumnVarNameInTable="column在庫日数" msprop:Generator_UserColumnName="在庫日数" type="xs:decimal" minOccurs="0" />
+              <xs:element name="交差率" msprop:Generator_ColumnPropNameInRow="交差率" msprop:Generator_ColumnPropNameInTable="交差率Column" msprop:Generator_ColumnVarNameInTable="column交差率" msprop:Generator_UserColumnName="交差率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="交差日数" msprop:Generator_ColumnPropNameInRow="交差日数" msprop:Generator_ColumnPropNameInTable="交差日数Column" msprop:Generator_ColumnVarNameInTable="column交差日数" msprop:Generator_UserColumnName="交差日数" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質個数" msprop:Generator_ColumnPropNameInRow="実質個数" msprop:Generator_ColumnPropNameInTable="実質個数Column" msprop:Generator_ColumnVarNameInTable="column実質個数" msprop:Generator_UserColumnName="実質個数" type="xs:int" minOccurs="0" />
+              <xs:element name="個数差" msprop:Generator_ColumnPropNameInRow="個数差" msprop:Generator_ColumnPropNameInTable="個数差Column" msprop:Generator_ColumnVarNameInTable="column個数差" msprop:Generator_UserColumnName="個数差" type="xs:int" minOccurs="0" />
+              <xs:element name="営業日数" msprop:Generator_ColumnPropNameInRow="営業日数" msprop:Generator_ColumnPropNameInTable="営業日数Column" msprop:Generator_ColumnVarNameInTable="column営業日数" msprop:Generator_UserColumnName="営業日数" type="xs:int" minOccurs="0" />
+              <xs:element name="実質原価" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="実質原価" msprop:Generator_ColumnPropNameInTable="実質原価Column" msprop:Generator_ColumnVarNameInTable="column実質原価" msprop:Generator_UserColumnName="実質原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="原価差額" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="原価差額" msprop:Generator_ColumnPropNameInTable="原価差額Column" msprop:Generator_ColumnVarNameInTable="column原価差額" msprop:Generator_UserColumnName="原価差額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質上代" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="実質上代" msprop:Generator_ColumnPropNameInTable="実質上代Column" msprop:Generator_ColumnVarNameInTable="column実質上代" msprop:Generator_UserColumnName="実質上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代差額" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="上代差額" msprop:Generator_ColumnPropNameInTable="上代差額Column" msprop:Generator_ColumnVarNameInTable="column上代差額" msprop:Generator_UserColumnName="上代差額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末原価_棚卸" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="月末原価_棚卸" msprop:Generator_ColumnPropNameInTable="月末原価_棚卸Column" msprop:Generator_ColumnVarNameInTable="column月末原価_棚卸" msprop:Generator_UserColumnName="月末原価_棚卸" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末上代_棚卸" msdata:ReadOnly="true" msprop:Generator_ColumnPropNameInRow="月末上代_棚卸" msprop:Generator_ColumnPropNameInTable="月末上代_棚卸Column" msprop:Generator_ColumnVarNameInTable="column月末上代_棚卸" msprop:Generator_UserColumnName="月末上代_棚卸" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="T_部門別効率表" msprop:Generator_RowEvHandlerName="T_部門別効率表RowChangeEventHandler" msprop:Generator_RowDeletedName="T_部門別効率表RowDeleted" msprop:Generator_RowDeletingName="T_部門別効率表RowDeleting" msprop:Generator_RowEvArgName="T_部門別効率表RowChangeEvent" msprop:Generator_TablePropName="T_部門別効率表" msprop:Generator_RowChangedName="T_部門別効率表RowChanged" msprop:Generator_RowChangingName="T_部門別効率表RowChanging" msprop:Generator_UserTableName="T_部門別効率表" msprop:Generator_TableClassName="T_部門別効率表DataTable" msprop:Generator_RowClassName="T_部門別効率表Row" msprop:Generator_TableVarName="tableT_部門別効率表">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="対象年月" msprop:Generator_ColumnPropNameInRow="対象年月" msprop:Generator_ColumnPropNameInTable="対象年月Column" msprop:Generator_ColumnVarNameInTable="column対象年月" msprop:Generator_UserColumnName="対象年月" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="6" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="品番" msprop:Generator_ColumnPropNameInRow="品番" msprop:Generator_ColumnPropNameInTable="品番Column" msprop:Generator_ColumnVarNameInTable="column品番" msprop:Generator_UserColumnName="品番" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="3" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="品名" msprop:Generator_ColumnPropNameInRow="品名" msprop:Generator_ColumnPropNameInTable="品名Column" msprop:Generator_ColumnVarNameInTable="column品名" msprop:Generator_UserColumnName="品名" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="フロアコード" msprop:Generator_ColumnPropNameInRow="フロアコード" msprop:Generator_ColumnPropNameInTable="フロアコードColumn" msprop:Generator_ColumnVarNameInTable="columnフロアコード" msprop:Generator_UserColumnName="フロアコード" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="フロア名" msprop:Generator_ColumnPropNameInRow="フロア名" msprop:Generator_ColumnPropNameInTable="フロア名Column" msprop:Generator_ColumnVarNameInTable="columnフロア名" msprop:Generator_UserColumnName="フロア名" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="10" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="月首原価" msprop:Generator_ColumnPropNameInRow="月首原価" msprop:Generator_ColumnPropNameInTable="月首原価Column" msprop:Generator_ColumnVarNameInTable="column月首原価" msprop:Generator_UserColumnName="月首原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月首上代" msprop:Generator_ColumnPropNameInRow="月首上代" msprop:Generator_ColumnPropNameInTable="月首上代Column" msprop:Generator_ColumnVarNameInTable="column月首上代" msprop:Generator_UserColumnName="月首上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入原価" msprop:Generator_ColumnPropNameInRow="仕入原価" msprop:Generator_ColumnPropNameInTable="仕入原価Column" msprop:Generator_ColumnVarNameInTable="column仕入原価" msprop:Generator_UserColumnName="仕入原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入上代" msprop:Generator_ColumnPropNameInRow="仕入上代" msprop:Generator_ColumnPropNameInTable="仕入上代Column" msprop:Generator_ColumnVarNameInTable="column仕入上代" msprop:Generator_UserColumnName="仕入上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="原価合計" msprop:Generator_ColumnPropNameInRow="原価合計" msprop:Generator_ColumnPropNameInTable="原価合計Column" msprop:Generator_ColumnVarNameInTable="column原価合計" msprop:Generator_UserColumnName="原価合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代合計" msprop:Generator_ColumnPropNameInRow="上代合計" msprop:Generator_ColumnPropNameInTable="上代合計Column" msprop:Generator_ColumnVarNameInTable="column上代合計" msprop:Generator_UserColumnName="上代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末原価" msprop:Generator_ColumnPropNameInRow="月末原価" msprop:Generator_ColumnPropNameInTable="月末原価Column" msprop:Generator_ColumnVarNameInTable="column月末原価" msprop:Generator_UserColumnName="月末原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末上代" msprop:Generator_ColumnPropNameInRow="月末上代" msprop:Generator_ColumnPropNameInTable="月末上代Column" msprop:Generator_ColumnVarNameInTable="column月末上代" msprop:Generator_UserColumnName="月末上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末原価_棚卸" msprop:Generator_ColumnPropNameInRow="月末原価_棚卸" msprop:Generator_ColumnPropNameInTable="月末原価_棚卸Column" msprop:Generator_ColumnVarNameInTable="column月末原価_棚卸" msprop:Generator_UserColumnName="月末原価_棚卸" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末上代_棚卸" msprop:Generator_ColumnPropNameInRow="月末上代_棚卸" msprop:Generator_ColumnPropNameInTable="月末上代_棚卸Column" msprop:Generator_ColumnVarNameInTable="column月末上代_棚卸" msprop:Generator_UserColumnName="月末上代_棚卸" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月末個数" msprop:Generator_ColumnPropNameInRow="月末個数" msprop:Generator_ColumnPropNameInTable="月末個数Column" msprop:Generator_ColumnVarNameInTable="column月末個数" msprop:Generator_UserColumnName="月末個数" type="xs:int" minOccurs="0" />
+              <xs:element name="原価売上" msprop:Generator_ColumnPropNameInRow="原価売上" msprop:Generator_ColumnPropNameInTable="原価売上Column" msprop:Generator_ColumnVarNameInTable="column原価売上" msprop:Generator_UserColumnName="原価売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代売上" msprop:Generator_ColumnPropNameInRow="上代売上" msprop:Generator_ColumnPropNameInTable="上代売上Column" msprop:Generator_ColumnVarNameInTable="column上代売上" msprop:Generator_UserColumnName="上代売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利金額" msprop:Generator_ColumnPropNameInRow="粗利金額" msprop:Generator_ColumnPropNameInTable="粗利金額Column" msprop:Generator_ColumnVarNameInTable="column粗利金額" msprop:Generator_UserColumnName="粗利金額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売価売上" msprop:Generator_ColumnPropNameInRow="売価売上" msprop:Generator_ColumnPropNameInTable="売価売上Column" msprop:Generator_ColumnVarNameInTable="column売価売上" msprop:Generator_UserColumnName="売価売上" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売上構成比" msprop:Generator_ColumnPropNameInRow="売上構成比" msprop:Generator_ColumnPropNameInTable="売上構成比Column" msprop:Generator_ColumnVarNameInTable="column売上構成比" msprop:Generator_UserColumnName="売上構成比" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利構成比" msprop:Generator_ColumnPropNameInRow="粗利構成比" msprop:Generator_ColumnPropNameInTable="粗利構成比Column" msprop:Generator_ColumnVarNameInTable="column粗利構成比" msprop:Generator_UserColumnName="粗利構成比" type="xs:decimal" minOccurs="0" />
+              <xs:element name="粗利率" msprop:Generator_ColumnPropNameInRow="粗利率" msprop:Generator_ColumnPropNameInTable="粗利率Column" msprop:Generator_ColumnVarNameInTable="column粗利率" msprop:Generator_UserColumnName="粗利率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="廃棄上代" msprop:Generator_ColumnPropNameInRow="廃棄上代" msprop:Generator_ColumnPropNameInTable="廃棄上代Column" msprop:Generator_ColumnVarNameInTable="column廃棄上代" msprop:Generator_UserColumnName="廃棄上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="回転率" msprop:Generator_ColumnPropNameInRow="回転率" msprop:Generator_ColumnPropNameInTable="回転率Column" msprop:Generator_ColumnVarNameInTable="column回転率" msprop:Generator_UserColumnName="回転率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="在庫日数" msprop:Generator_ColumnPropNameInRow="在庫日数" msprop:Generator_ColumnPropNameInTable="在庫日数Column" msprop:Generator_ColumnVarNameInTable="column在庫日数" msprop:Generator_UserColumnName="在庫日数" type="xs:decimal" minOccurs="0" />
+              <xs:element name="交差率" msprop:Generator_ColumnPropNameInRow="交差率" msprop:Generator_ColumnPropNameInTable="交差率Column" msprop:Generator_ColumnVarNameInTable="column交差率" msprop:Generator_UserColumnName="交差率" type="xs:decimal" minOccurs="0" />
+              <xs:element name="交差日数" msprop:Generator_ColumnPropNameInRow="交差日数" msprop:Generator_ColumnPropNameInTable="交差日数Column" msprop:Generator_ColumnVarNameInTable="column交差日数" msprop:Generator_UserColumnName="交差日数" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質原価" msprop:Generator_ColumnPropNameInRow="実質原価" msprop:Generator_ColumnPropNameInTable="実質原価Column" msprop:Generator_ColumnVarNameInTable="column実質原価" msprop:Generator_UserColumnName="実質原価" type="xs:decimal" minOccurs="0" />
+              <xs:element name="原価差額" msprop:Generator_ColumnPropNameInRow="原価差額" msprop:Generator_ColumnPropNameInTable="原価差額Column" msprop:Generator_ColumnVarNameInTable="column原価差額" msprop:Generator_UserColumnName="原価差額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質上代" msprop:Generator_ColumnPropNameInRow="実質上代" msprop:Generator_ColumnPropNameInTable="実質上代Column" msprop:Generator_ColumnVarNameInTable="column実質上代" msprop:Generator_UserColumnName="実質上代" type="xs:decimal" minOccurs="0" />
+              <xs:element name="上代差額" msprop:Generator_ColumnPropNameInRow="上代差額" msprop:Generator_ColumnPropNameInTable="上代差額Column" msprop:Generator_ColumnVarNameInTable="column上代差額" msprop:Generator_UserColumnName="上代差額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="実質個数" msprop:Generator_ColumnPropNameInRow="実質個数" msprop:Generator_ColumnPropNameInTable="実質個数Column" msprop:Generator_ColumnVarNameInTable="column実質個数" msprop:Generator_UserColumnName="実質個数" type="xs:int" minOccurs="0" />
+              <xs:element name="個数差" msprop:Generator_ColumnPropNameInRow="個数差" msprop:Generator_ColumnPropNameInTable="個数差Column" msprop:Generator_ColumnVarNameInTable="column個数差" msprop:Generator_UserColumnName="個数差" type="xs:int" minOccurs="0" />
+              <xs:element name="営業日数" msprop:Generator_ColumnPropNameInRow="営業日数" msprop:Generator_ColumnPropNameInTable="営業日数Column" msprop:Generator_ColumnVarNameInTable="column営業日数" msprop:Generator_UserColumnName="営業日数" type="xs:int" minOccurs="0" />
+              <xs:element name="登録者番号" msprop:Generator_ColumnPropNameInRow="登録者番号" msprop:Generator_ColumnPropNameInTable="登録者番号Column" msprop:Generator_ColumnVarNameInTable="column登録者番号" msprop:Generator_UserColumnName="登録者番号" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="登録日" msprop:Generator_ColumnPropNameInRow="登録日" msprop:Generator_ColumnPropNameInTable="登録日Column" msprop:Generator_ColumnVarNameInTable="column登録日" msprop:Generator_UserColumnName="登録日" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="更新者番号" msprop:Generator_ColumnPropNameInRow="更新者番号" msprop:Generator_ColumnPropNameInTable="更新者番号Column" msprop:Generator_ColumnVarNameInTable="column更新者番号" msprop:Generator_UserColumnName="更新者番号" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="4" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="更新日" msprop:Generator_ColumnPropNameInRow="更新日" msprop:Generator_ColumnPropNameInTable="更新日Column" msprop:Generator_ColumnVarNameInTable="column更新日" msprop:Generator_UserColumnName="更新日" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
