@@ -265,6 +265,14 @@ FROM [M_商品]</CommandText>
                   </DbCommand>
                 </InsertCommand>
               </DbSource>
+              <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateIndex" Modifier="Public" Name="UpdateIndex" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy8" UserSourceName="UpdateIndex">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>UPDATE STATISTICS [T_月別効率表]</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
               <DbSource ConnectionRef="tnbConnectionString (MySettings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateInGessoZaiko" Modifier="Public" Name="UpdateInGessoZaiko" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy3" UserSourceName="UpdateInGessoZaiko">
                 <UpdateCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
@@ -452,55 +460,55 @@ WHERE TSUKI.集計年月 = @集計年月
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="N160" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="N160" msprop:Generator_DataSetName="N160">
+  <xs:element name="N160" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="N160" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="N160">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="T_月別効率表" msprop:Generator_RowEvHandlerName="T_月別効率表RowChangeEventHandler" msprop:Generator_RowDeletedName="T_月別効率表RowDeleted" msprop:Generator_RowDeletingName="T_月別効率表RowDeleting" msprop:Generator_RowEvArgName="T_月別効率表RowChangeEvent" msprop:Generator_TablePropName="T_月別効率表" msprop:Generator_RowChangedName="T_月別効率表RowChanged" msprop:Generator_RowChangingName="T_月別効率表RowChanging" msprop:Generator_TableClassName="T_月別効率表DataTable" msprop:Generator_RowClassName="T_月別効率表Row" msprop:Generator_TableVarName="tableT_月別効率表" msprop:Generator_UserTableName="T_月別効率表">
+        <xs:element name="T_月別効率表" msprop:Generator_RowClassName="T_月別効率表Row" msprop:Generator_RowEvHandlerName="T_月別効率表RowChangeEventHandler" msprop:Generator_RowDeletedName="T_月別効率表RowDeleted" msprop:Generator_RowDeletingName="T_月別効率表RowDeleting" msprop:Generator_RowEvArgName="T_月別効率表RowChangeEvent" msprop:Generator_TablePropName="T_月別効率表" msprop:Generator_RowChangedName="T_月別効率表RowChanged" msprop:Generator_UserTableName="T_月別効率表" msprop:Generator_RowChangingName="T_月別効率表RowChanging" msprop:Generator_TableClassName="T_月別効率表DataTable" msprop:Generator_TableVarName="tableT_月別効率表">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="商品管理番号" msprop:Generator_ColumnPropNameInRow="商品管理番号" msprop:Generator_ColumnPropNameInTable="商品管理番号Column" msprop:Generator_ColumnVarNameInTable="column商品管理番号" msprop:Generator_UserColumnName="商品管理番号">
+              <xs:element name="商品管理番号" msprop:Generator_UserColumnName="商品管理番号" msprop:Generator_ColumnPropNameInTable="商品管理番号Column" msprop:Generator_ColumnPropNameInRow="商品管理番号" msprop:Generator_ColumnVarNameInTable="column商品管理番号">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="8" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="集計年月" msprop:Generator_ColumnPropNameInRow="集計年月" msprop:Generator_ColumnPropNameInTable="集計年月Column" msprop:Generator_ColumnVarNameInTable="column集計年月" msprop:Generator_UserColumnName="集計年月">
+              <xs:element name="集計年月" msprop:Generator_UserColumnName="集計年月" msprop:Generator_ColumnPropNameInTable="集計年月Column" msprop:Generator_ColumnPropNameInRow="集計年月" msprop:Generator_ColumnVarNameInTable="column集計年月">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="6" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="月初原価金額" msprop:Generator_ColumnPropNameInRow="月初原価金額" msprop:Generator_ColumnPropNameInTable="月初原価金額Column" msprop:Generator_ColumnVarNameInTable="column月初原価金額" msprop:Generator_UserColumnName="月初原価金額" type="xs:decimal" minOccurs="0" />
-              <xs:element name="月初上代金額" msprop:Generator_ColumnPropNameInRow="月初上代金額" msprop:Generator_ColumnPropNameInTable="月初上代金額Column" msprop:Generator_ColumnVarNameInTable="column月初上代金額" msprop:Generator_UserColumnName="月初上代金額" type="xs:decimal" minOccurs="0" />
-              <xs:element name="仕入数量" msprop:Generator_ColumnPropNameInRow="仕入数量" msprop:Generator_ColumnPropNameInTable="仕入数量Column" msprop:Generator_ColumnVarNameInTable="column仕入数量" msprop:Generator_UserColumnName="仕入数量" type="xs:int" minOccurs="0" />
-              <xs:element name="仕入原価合計" msprop:Generator_ColumnPropNameInRow="仕入原価合計" msprop:Generator_ColumnPropNameInTable="仕入原価合計Column" msprop:Generator_ColumnVarNameInTable="column仕入原価合計" msprop:Generator_UserColumnName="仕入原価合計" type="xs:decimal" minOccurs="0" />
-              <xs:element name="仕入上代合計" msprop:Generator_ColumnPropNameInRow="仕入上代合計" msprop:Generator_ColumnPropNameInTable="仕入上代合計Column" msprop:Generator_ColumnVarNameInTable="column仕入上代合計" msprop:Generator_UserColumnName="仕入上代合計" type="xs:decimal" minOccurs="0" />
-              <xs:element name="在庫数量" msprop:Generator_ColumnPropNameInRow="在庫数量" msprop:Generator_ColumnPropNameInTable="在庫数量Column" msprop:Generator_ColumnVarNameInTable="column在庫数量" msprop:Generator_UserColumnName="在庫数量" type="xs:int" minOccurs="0" />
-              <xs:element name="在庫原価合計" msprop:Generator_ColumnPropNameInRow="在庫原価合計" msprop:Generator_ColumnPropNameInTable="在庫原価合計Column" msprop:Generator_ColumnVarNameInTable="column在庫原価合計" msprop:Generator_UserColumnName="在庫原価合計" type="xs:decimal" minOccurs="0" />
-              <xs:element name="在庫上代合計" msprop:Generator_ColumnPropNameInRow="在庫上代合計" msprop:Generator_ColumnPropNameInTable="在庫上代合計Column" msprop:Generator_ColumnVarNameInTable="column在庫上代合計" msprop:Generator_UserColumnName="在庫上代合計" type="xs:decimal" minOccurs="0" />
-              <xs:element name="売上数量" msprop:Generator_ColumnPropNameInRow="売上数量" msprop:Generator_ColumnPropNameInTable="売上数量Column" msprop:Generator_ColumnVarNameInTable="column売上数量" msprop:Generator_UserColumnName="売上数量" type="xs:int" minOccurs="0" />
-              <xs:element name="売上原価合計" msprop:Generator_ColumnPropNameInRow="売上原価合計" msprop:Generator_ColumnPropNameInTable="売上原価合計Column" msprop:Generator_ColumnVarNameInTable="column売上原価合計" msprop:Generator_UserColumnName="売上原価合計" type="xs:decimal" minOccurs="0" />
-              <xs:element name="売上上代合計" msprop:Generator_ColumnPropNameInRow="売上上代合計" msprop:Generator_ColumnPropNameInTable="売上上代合計Column" msprop:Generator_ColumnVarNameInTable="column売上上代合計" msprop:Generator_UserColumnName="売上上代合計" type="xs:decimal" minOccurs="0" />
-              <xs:element name="売上下代合計" msprop:Generator_ColumnPropNameInRow="売上下代合計" msprop:Generator_ColumnPropNameInTable="売上下代合計Column" msprop:Generator_ColumnVarNameInTable="column売上下代合計" msprop:Generator_UserColumnName="売上下代合計" type="xs:decimal" minOccurs="0" />
-              <xs:element name="廃棄上代合計" msprop:Generator_ColumnPropNameInRow="廃棄上代合計" msprop:Generator_ColumnPropNameInTable="廃棄上代合計Column" msprop:Generator_ColumnVarNameInTable="column廃棄上代合計" msprop:Generator_UserColumnName="廃棄上代合計" type="xs:decimal" minOccurs="0" />
-              <xs:element name="登録者番号" msprop:Generator_ColumnPropNameInRow="登録者番号" msprop:Generator_ColumnPropNameInTable="登録者番号Column" msprop:Generator_ColumnVarNameInTable="column登録者番号" msprop:Generator_UserColumnName="登録者番号" minOccurs="0">
+              <xs:element name="月初原価金額" msprop:Generator_UserColumnName="月初原価金額" msprop:Generator_ColumnPropNameInTable="月初原価金額Column" msprop:Generator_ColumnPropNameInRow="月初原価金額" msprop:Generator_ColumnVarNameInTable="column月初原価金額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="月初上代金額" msprop:Generator_UserColumnName="月初上代金額" msprop:Generator_ColumnPropNameInTable="月初上代金額Column" msprop:Generator_ColumnPropNameInRow="月初上代金額" msprop:Generator_ColumnVarNameInTable="column月初上代金額" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入数量" msprop:Generator_UserColumnName="仕入数量" msprop:Generator_ColumnPropNameInTable="仕入数量Column" msprop:Generator_ColumnPropNameInRow="仕入数量" msprop:Generator_ColumnVarNameInTable="column仕入数量" type="xs:int" minOccurs="0" />
+              <xs:element name="仕入原価合計" msprop:Generator_UserColumnName="仕入原価合計" msprop:Generator_ColumnPropNameInTable="仕入原価合計Column" msprop:Generator_ColumnPropNameInRow="仕入原価合計" msprop:Generator_ColumnVarNameInTable="column仕入原価合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="仕入上代合計" msprop:Generator_UserColumnName="仕入上代合計" msprop:Generator_ColumnPropNameInTable="仕入上代合計Column" msprop:Generator_ColumnPropNameInRow="仕入上代合計" msprop:Generator_ColumnVarNameInTable="column仕入上代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="在庫数量" msprop:Generator_UserColumnName="在庫数量" msprop:Generator_ColumnPropNameInTable="在庫数量Column" msprop:Generator_ColumnPropNameInRow="在庫数量" msprop:Generator_ColumnVarNameInTable="column在庫数量" type="xs:int" minOccurs="0" />
+              <xs:element name="在庫原価合計" msprop:Generator_UserColumnName="在庫原価合計" msprop:Generator_ColumnPropNameInTable="在庫原価合計Column" msprop:Generator_ColumnPropNameInRow="在庫原価合計" msprop:Generator_ColumnVarNameInTable="column在庫原価合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="在庫上代合計" msprop:Generator_UserColumnName="在庫上代合計" msprop:Generator_ColumnPropNameInTable="在庫上代合計Column" msprop:Generator_ColumnPropNameInRow="在庫上代合計" msprop:Generator_ColumnVarNameInTable="column在庫上代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売上数量" msprop:Generator_UserColumnName="売上数量" msprop:Generator_ColumnPropNameInTable="売上数量Column" msprop:Generator_ColumnPropNameInRow="売上数量" msprop:Generator_ColumnVarNameInTable="column売上数量" type="xs:int" minOccurs="0" />
+              <xs:element name="売上原価合計" msprop:Generator_UserColumnName="売上原価合計" msprop:Generator_ColumnPropNameInTable="売上原価合計Column" msprop:Generator_ColumnPropNameInRow="売上原価合計" msprop:Generator_ColumnVarNameInTable="column売上原価合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売上上代合計" msprop:Generator_UserColumnName="売上上代合計" msprop:Generator_ColumnPropNameInTable="売上上代合計Column" msprop:Generator_ColumnPropNameInRow="売上上代合計" msprop:Generator_ColumnVarNameInTable="column売上上代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="売上下代合計" msprop:Generator_UserColumnName="売上下代合計" msprop:Generator_ColumnPropNameInTable="売上下代合計Column" msprop:Generator_ColumnPropNameInRow="売上下代合計" msprop:Generator_ColumnVarNameInTable="column売上下代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="廃棄上代合計" msprop:Generator_UserColumnName="廃棄上代合計" msprop:Generator_ColumnPropNameInTable="廃棄上代合計Column" msprop:Generator_ColumnPropNameInRow="廃棄上代合計" msprop:Generator_ColumnVarNameInTable="column廃棄上代合計" type="xs:decimal" minOccurs="0" />
+              <xs:element name="登録者番号" msprop:Generator_UserColumnName="登録者番号" msprop:Generator_ColumnPropNameInTable="登録者番号Column" msprop:Generator_ColumnPropNameInRow="登録者番号" msprop:Generator_ColumnVarNameInTable="column登録者番号" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="4" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="登録日" msprop:Generator_ColumnPropNameInRow="登録日" msprop:Generator_ColumnPropNameInTable="登録日Column" msprop:Generator_ColumnVarNameInTable="column登録日" msprop:Generator_UserColumnName="登録日" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="更新者番号" msprop:Generator_ColumnPropNameInRow="更新者番号" msprop:Generator_ColumnPropNameInTable="更新者番号Column" msprop:Generator_ColumnVarNameInTable="column更新者番号" msprop:Generator_UserColumnName="更新者番号" minOccurs="0">
+              <xs:element name="登録日" msprop:Generator_UserColumnName="登録日" msprop:Generator_ColumnPropNameInTable="登録日Column" msprop:Generator_ColumnPropNameInRow="登録日" msprop:Generator_ColumnVarNameInTable="column登録日" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="更新者番号" msprop:Generator_UserColumnName="更新者番号" msprop:Generator_ColumnPropNameInTable="更新者番号Column" msprop:Generator_ColumnPropNameInRow="更新者番号" msprop:Generator_ColumnVarNameInTable="column更新者番号" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="4" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="更新日" msprop:Generator_ColumnPropNameInRow="更新日" msprop:Generator_ColumnPropNameInTable="更新日Column" msprop:Generator_ColumnVarNameInTable="column更新日" msprop:Generator_UserColumnName="更新日" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="更新日" msprop:Generator_UserColumnName="更新日" msprop:Generator_ColumnPropNameInTable="更新日Column" msprop:Generator_ColumnPropNameInRow="更新日" msprop:Generator_ColumnVarNameInTable="column更新日" type="xs:dateTime" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
